@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Pywebshop</title>
+</head>
+<body>
+	<h1>Welcome to Pywebshop</h1>
+	<p>These are our artists:</p>
+	<p>
+		{% for artist in artists %}
+			<li>{{artist.name}} - {{artist.genre}}</li>
+		{% endfor %}
+	</p>
+	<p>These are our albums:</p>
+	<p>
+		{% for album in albums %}
+			<li>{{album.title}} - {{album.artist}}</li>
+		{% endfor %}
+	</p>
+	<p>These are our tracks:</p>
+	<p>
+		{% for track in tracks %}
+			<li>{{track.title}} - {{track.album}}</li>
+		{% endfor %}
+	</p>
+	<p>Visit <a href="/admin/">the admin panel</a> to get started.</p>
+</body>
