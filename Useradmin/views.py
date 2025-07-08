@@ -21,4 +21,7 @@ class MyLoginView(LoginView):
 class MyHomeView(TemplateView):
     template_name = "home.html"
 
+class ArtikelSucheView(TemplateView):
+    template_name = "artikel_suche.html"
+
    
