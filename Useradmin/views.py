@@ -3,7 +3,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from .forms import MySignUpForm
 from django.views.generic.base import TemplateView
-
+from .forms import ProfilePictureForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -17,11 +19,20 @@ class MyLoginView(LoginView):
     template = "registration/login.html"
 
 
-
 class MyHomeView(TemplateView):
     template_name = "home.html"
 
-class ArtikelSucheView(TemplateView):
-    template_name = "artikel_suche.html"
+
+@login_required
+def upload_profile_picture(request):
+    if request.method == 'POST':
+        form = ProfilePictureForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Zurück zur Homepage
+    else:
+        form = ProfilePictureForm(instance=request.user)
+    return render(request, 'upload_profile_picture.html', {'form': form})
+
 
    

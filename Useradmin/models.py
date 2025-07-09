@@ -10,4 +10,9 @@ class MyUser(AbstractUser):
         ("CU", "customer")
     ]
 
+    type = models.CharField(max_length=2,
+                            choices=USER_TYPES,
+							default='CU',
+                            )
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 

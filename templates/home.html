@@ -1,34 +1,53 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}" />
 {% endblock %}
 
-{% block title %}Homepage Titel{% endblock %}
+{% block title %}
+  Homepage Titel
+{% endblock %}
 
-{%block content%}
-    {% if user.is_authenticated %}
-        {% block logged_in_content %}
-            <form method="get" action="{% url 'artikel-suche' %}">
-                <input type="text" name="q" placeholder="Artikel suchen..." required>
-                <button type="submit">Suchen</button>
-            </form> 
-            <H1>Homepage</H1>
-            <p>Hi {{ user.username }}!</p>
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit">logout</button>
-            </form>
-        {% endblock %}
-    {% else %}
-        {% block not_logged_in_content %}
-            <H1>Homepage</H1>
-            <p>You are not logged in</p>
-            <p><a href="{% url 'login' %}">Login</a></p>
-            <a href="{% url 'signup' %}">Signup</a>
-        {% endblock %}
-    {% endif %}
-{%endblock%}
+{% block content %}
+  {% if user.is_authenticated %}
+    {% block logged_in_content %}
+      <form method="get" action="{% url 'artikel-suche' %}">
+        <input type="text" name="q" placeholder="Artikel suchen..." required />
+        <button type="submit">Suchen</button>
+      </form>
+      <H1>Homepage</H1>
+      <p>Hi {{ user.username }}!</p>
+      <p>Your role is: {{ user.get_type_display }}</p>
 
+      
+      {% if user.profile_picture %}
+        <img src="{{ user.profile_picture.url }}" alt="Profilbild" style="width: 150px; height: 150px; border-radius: 50%;" />
+      {% else %}
+        <p>No profile picture uploaded.</p>
+      {% endif %}
 
+      
+      <form method="post" action="{% url 'upload_profile_picture' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="profile_picture">Upload Profile Picture:</label>
+        <input type="file" name="profile_picture" id="profile_picture" accept="image/*" required />
+        <button type="submit">Upload</button>
+      </form>
+
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">logout</button>
+      </form>
+    {% endblock %}
+  {% else %}
+    {% block not_logged_in_content %}
+      <H1>Homepage</H1>
+      <p>You are not logged in</p>
+      <p>
+        <a href="{% url 'login' %}">Login</a>
+      </p>
+      <a href="{% url 'signup' %}">Signup</a>
+    {% endblock %}
+  {% endif %}
+{% endblock %}

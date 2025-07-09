@@ -1,0 +1,36 @@
+{% extends "home.html" %}
+{% block title %}Artikelsuche{% endblock %}
+
+{% block content %}
+    <h1>Suchergebnisse für "{{ query }}"</h1>
+    {% if artists or albums or tracks %}
+        <h2>Künstler</h2>
+        <ul>
+            {% for artist in artists %}
+                <li>{{ artist.name }} ({{ artist.genre }})</li>
+            {% empty %}
+                <li>Keine Künstler gefunden.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Alben</h2>
+        <ul>
+            {% for album in albums %}
+                <li>{{ album.title }} von {{ album.artist.name }}</li>
+            {% empty %}
+                <li>Keine Alben gefunden.</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Tracks</h2>
+        <ul>
+            {% for track in tracks %}
+                <li>{{ track.title }} (Album: {{ track.album.title }})</li>
+            {% empty %}
+                <li>Keine Tracks gefunden.</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Keine Ergebnisse gefunden.</p>
+    {% endif %}
+{% endblock %}
