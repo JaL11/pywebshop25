@@ -74,3 +74,7 @@ def addTrack(request):
 
         return redirect("addProduct")
     return render(request, "csPortal.html")
+
+
+def modify_artist(self):
+    print("do")

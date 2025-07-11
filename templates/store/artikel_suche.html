@@ -15,6 +15,11 @@
           <input type="hidden" name="type" value="artist" />
           <input type="hidden" name="id" value="{{ artist.id }}" />
           <button type="submit">Download PDF</button>
+          {% if user.is_superuser_or_customer_service %}
+            <p>
+              <a href="{% url 'modify_artist' %}">Bearbeiten</a>
+            </p>
+          {% endif %}
         </form>
       {% empty %}
         <li>Keine Künstler gefunden.</li>

@@ -8,5 +8,6 @@ urlpatterns = [
     path('add-artist/', views.addArtist, name='add_artist'),
     path('add-album/', views.addAlbum, name='add_album'),
     path('add-track/', views.addTrack, name='add_track'),
+    path('modify-artist/', views.modify_artist, name='modify_artist'),
     
 ]
