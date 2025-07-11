@@ -16,11 +16,16 @@ class MySignUpView(generic.CreateView):
 
 
 class MyLoginView(LoginView):
-    template = "registration/login.html"
+    template_name = "registration/login.html"
 
 
 class MyHomeView(TemplateView):
     template_name = "home.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated and request.user.type == "CS":
+            return redirect("customerService")
+        return super().dispatch(request, *args, **kwargs)
 
 
 @login_required
