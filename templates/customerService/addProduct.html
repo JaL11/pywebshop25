@@ -18,7 +18,7 @@
     <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
   </p>
 
-  <!-- Artist Formular -->
+  
   <form id="artist-form" method="post" action="{% url 'add_artist' %}" style="display: none;">
     {% csrf_token %}
     <h2>Artist hinzufügen</h2>
@@ -40,7 +40,7 @@
     <button type="submit">Artist speichern</button>
   </form>
 
-  <!-- Album Formular -->
+  
   <form id="album-form" method="post" action="{% url 'add_album' %}" style="display: none;">
     {% csrf_token %}
     <h2>Album hinzufügen</h2>
@@ -59,7 +59,7 @@
     <button type="submit">Album speichern</button>
   </form>
 
-  <!-- Track Formular -->
+  
   <form id="track-form" method="post" action="{% url 'add_track' %}" style="display: none;">
     {% csrf_token %}
     <h2>Track hinzufügen</h2>

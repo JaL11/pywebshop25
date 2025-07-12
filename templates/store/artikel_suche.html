@@ -35,6 +35,11 @@
           <input type="hidden" name="type" value="album" />
           <input type="hidden" name="id" value="{{ album.id }}" />
           <button type="submit">Download PDF</button>
+          {% if user.is_superuser_or_customer_service %}
+            <p>
+              <a href="{% url 'modify_album' %}">Bearbeiten</a>
+            </p>
+          {% endif %}
         </form>
       {% empty %}
         <li>Keine Alben gefunden.</li>
@@ -50,6 +55,11 @@
           <input type="hidden" name="type" value="track" />
           <input type="hidden" name="id" value="{{ track.id }}" />
           <button type="submit">Download PDF</button>
+          {% if user.is_superuser_or_customer_service %}
+            <p>
+              <a href="{% url 'modify_track' %}">Bearbeiten</a>
+            </p>
+          {% endif %}
         </form>
       {% empty %}
         <li>Keine Tracks gefunden.</li>
