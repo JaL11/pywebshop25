@@ -11,3 +11,7 @@
   background: #4f46e5; /* indigo-600 */
   border-radius: 4px;
 }
+
+#submitLogin, #submitSignup {
+  background-color: #818cf8;
+}
