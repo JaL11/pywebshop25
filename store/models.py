@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Artist(models.Model):
@@ -19,6 +20,9 @@ class Album(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.artist.name}"
+    
+    def average_rating(self):
+    	return self.ratings.aggregate(models.Avg("value"))["value__avg"] or 0 # type: ignore[attr-defined]
 
 class Track(models.Model):
     title = models.CharField(max_length=100)
@@ -27,3 +31,15 @@ class Track(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.album.title})"
+    
+
+class Rating(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="ratings")
+    value = models.PositiveSmallIntegerField()  # 1 to 5 stars
+
+    class Meta:
+        unique_together = ("user", "album")  # prevent multiple ratings per album/user
+
+    def __str__(self):
+        return f"{self.album.title}: {self.value}⭐ by {self.user.username}"
