@@ -9,7 +9,7 @@
     <h2>Künstler</h2>
     <ul>
       {% for artist in artists %}
-        <li>{{ artist.name }} ({{ artist.genre }})</li>
+        <li>{{ artist.name }} ({{ artist.genre }}) ({{ artist.bio }})</li>
         <form method="get" action="{% url 'pdf' %}">
           {% csrf_token %}
           <input type="hidden" name="type" value="artist" />
@@ -65,6 +65,13 @@
         <li>Keine Tracks gefunden.</li>
       {% endfor %}
     </ul>
+    <p>
+      <a href="{% url 'home' %}">Zurück zum Dashboard</a>
+    </p>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">logout</button>
+    </form>
   {% else %}
     <p>Keine Ergebnisse gefunden.</p>
   {% endif %}
