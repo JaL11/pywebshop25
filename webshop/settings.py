@@ -56,7 +56,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Useradmin.apps.UseradminConfig',
+    'Shoppingcart.apps.ShoppingcartConfig',
     'store',
+    'store.apps.storeConfig',
 ]
 
 MIDDLEWARE = [
