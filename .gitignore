@@ -17,6 +17,10 @@ media
 .idea/**/dictionaries
 .idea/**/shelf
 
+#node
+node_modules
+_node_modules
+
 # AWS User-specific
 .idea/**/aws.xml
 
