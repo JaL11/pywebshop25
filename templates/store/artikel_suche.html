@@ -2,9 +2,19 @@
 {% block title %}
   Artikelsuche
 {% endblock %}
-
 {% block content %}
   <h1>Suchergebnisse für "{{ query }}"</h1>
+  <form method="get" action="{% url 'artikel-suche' %}">
+  <input type="text" name="q" value="{{ query }}" placeholder="Suche..." />
+  <label for="min_rating">Min. Bewertung:</label>
+  <select name="min_rating">
+    <option value="">--</option>
+    {% for i in ratings %}
+      <option value="{{ i }}" {% if min_rating == i %}selected{% endif %}>{{ i }} ⭐</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Suchen</button>
+</form>
   {% if artists or albums or tracks %}
     <h2>Künstler</h2>
     <ul>
@@ -30,10 +40,10 @@
     <ul>
       {% for album in albums %}
         <li>
-			{{ album.title }} - {{ album.artist.name }}
-			<small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
-			| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
-		</li>
+          {{ album.title }} - {{ album.artist.name }}
+          <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+          | <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+        </li>
         <form method="get" action="{% url 'pdf' %}">
           {% csrf_token %}
           <input type="hidden" name="type" value="album" />
