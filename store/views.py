@@ -3,6 +3,8 @@ from .models import Artist, Album, Track
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
+
 
 def home(request):
     artists = Artist.objects.all()
@@ -16,7 +18,11 @@ def home(request):
 
 def item_search(request):
     query = request.GET.get("q", "")
-    artists = Artist.objects.filter(name__icontains=query) if query else []
+    artists = (
+        Artist.objects.filter(Q(name__icontains=query) | Q(bio__icontains=query))
+        if query
+        else []
+    )
     albums = Album.objects.filter(title__icontains=query) if query else []
     tracks = Track.objects.filter(title__icontains=query) if query else []
 
@@ -55,8 +61,6 @@ def generate_pdf(request):
         p.drawString(100, 740, f"Album: {track.album.title}")
     else:
         p.drawString(100, 760, "Invalid type provided.")
-
-    
 
     # Schließe das PDF
     p.showPage()

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+  <h1>Produktinformationen ändern</h1>
+  <form method="get" action="{% url 'artikel-suche' %}">
+    <input type="text" name="q" placeholder="Artikel suchen..." required />
+    <button type="submit">Suchen</button>
+  </form>
+  <p>
+    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+  </p>
+{% endblock %}
