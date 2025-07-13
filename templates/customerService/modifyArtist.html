@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+  <h1>Ändere hier die Angaben zum Artist</h1>
+  <form id="artist-form" method="post" action="{% url 'modify_artist' %}">
+    {% csrf_token %}
+    <label for="name">Name:</label>
+    <input type="text" name="name" required><br>
+
+    <label for="genre">Genre:</label>
+    <input type="text" name="genre" required><br>
+
+    <label for="dateOfBirth">Geburtsdatum:</label>
+    <input type="date" name="dateOfBirth" required><br>
+
+    <label for="country">Land:</label>
+    <input type="text" name="country"><br>
+
+    <label for="bio">Biografie:</label><br>
+    <textarea name="bio" rows="4"></textarea><br>
+
+    <button type="submit">Änderung speichern</button>
+  </form>
+  <p>
+    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+  </p>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+  <h1>Ändere hier die Angaben zum Track</h1>
+  <form id="track-form" method="post" action="{% url 'modify_track' %}">
+    {% csrf_token %}
+
+    <label for="title">Titel:</label>
+    <input type="text" name="title" required><br>
+
+    <label for="album">Album (ID oder Titel):</label>
+    <input type="text" name="album" required><br>
+
+    <label for="duration">Dauer (HH:MM:SS):</label>
+    <input type="text" name="duration" placeholder="00:03:30" required><br>
+
+    <button type="submit">Änderung speichern</button>
+  </form>
+  <p>
+    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+  </p>
+{% endblock %}

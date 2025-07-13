@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+  <h1>Ändere hier die Angaben zum Album</h1>
+  <form id="album-form" method="post" action="{% url 'modify_album' %}">
+    {% csrf_token %}
+    
+    <label for="title">Titel:</label>
+    <input type="text" name="title" required><br>
+
+    <label for="artist">Artist (ID oder Name):</label>
+    <input type="text" name="artist" required><br>
+
+    <label for="releaseDate">Veröffentlichungsdatum:</label>
+    <input type="date" name="releaseDate" required><br>
+
+    <label for="price">Preis:</label>
+    <input type="number" name="price" step="0.01" required><br>
+
+    <button type="submit">Änderung speichern</button>
+  </form>
+  <p>
+    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+  </p>
+{% endblock %}

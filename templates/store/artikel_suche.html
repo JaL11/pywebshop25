@@ -2,19 +2,34 @@
 {% block title %}
   Artikelsuche
 {% endblock %}
-
 {% block content %}
   <h1>Suchergebnisse für "{{ query }}"</h1>
+  <form method="get" action="{% url 'artikel-suche' %}">
+  <input type="text" name="q" value="{{ query }}" placeholder="Suche..." />
+  <label for="min_rating">Min. Bewertung:</label>
+  <select name="min_rating">
+    <option value="">--</option>
+    {% for i in ratings %}
+      <option value="{{ i }}" {% if min_rating == i %}selected{% endif %}>{{ i }} ⭐</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Suchen</button>
+</form>
   {% if artists or albums or tracks %}
     <h2>Künstler</h2>
     <ul>
       {% for artist in artists %}
-        <li>{{ artist.name }} ({{ artist.genre }})</li>
+        <li>{{ artist.name }} ({{ artist.genre }}) ({{ artist.bio }})</li>
         <form method="get" action="{% url 'pdf' %}">
           {% csrf_token %}
           <input type="hidden" name="type" value="artist" />
           <input type="hidden" name="id" value="{{ artist.id }}" />
           <button type="submit">Download PDF</button>
+          {% if user.is_superuser_or_customer_service %}
+            <p>
+              <a href="{% url 'modify_artist' %}">Bearbeiten</a>
+            </p>
+          {% endif %}
         </form>
       {% empty %}
         <li>Keine Künstler gefunden.</li>
@@ -24,12 +39,21 @@
     <h2>Alben</h2>
     <ul>
       {% for album in albums %}
-        <li>{{ album.title }} von {{ album.artist.name }}</li>
+        <li>
+          {{ album.title }} - {{ album.artist.name }}
+          <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+          | <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+        </li>
         <form method="get" action="{% url 'pdf' %}">
           {% csrf_token %}
           <input type="hidden" name="type" value="album" />
           <input type="hidden" name="id" value="{{ album.id }}" />
           <button type="submit">Download PDF</button>
+          {% if user.is_superuser_or_customer_service %}
+            <p>
+              <a href="{% url 'modify_album' %}">Bearbeiten</a>
+            </p>
+          {% endif %}
         </form>
       {% empty %}
         <li>Keine Alben gefunden.</li>
@@ -45,11 +69,23 @@
           <input type="hidden" name="type" value="track" />
           <input type="hidden" name="id" value="{{ track.id }}" />
           <button type="submit">Download PDF</button>
+          {% if user.is_superuser_or_customer_service %}
+            <p>
+              <a href="{% url 'modify_track' %}">Bearbeiten</a>
+            </p>
+          {% endif %}
         </form>
       {% empty %}
         <li>Keine Tracks gefunden.</li>
       {% endfor %}
     </ul>
+    <p>
+      <a href="{% url 'home' %}">Zurück zum Dashboard</a>
+    </p>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit">logout</button>
+    </form>
   {% else %}
     <p>Keine Ergebnisse gefunden.</p>
   {% endif %}
