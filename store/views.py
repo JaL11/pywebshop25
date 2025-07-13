@@ -22,6 +22,8 @@ def item_search(request):
     artists = Artist.objects.filter(name__icontains=query) if query else []
     albums = Album.objects.filter(title__icontains=query) if query else []
     tracks = Track.objects.filter(title__icontains=query) if query else []
+    
+    request.session["last_query"] = query
 
     context = {
         "query": query,
@@ -75,6 +77,8 @@ def rate_album(request, album_id):
         rating = Rating.objects.get(user=request.user, album=album)
     except Rating.DoesNotExist:
         rating = None
+        
+    query = request.session.get("last_query")
 
     if request.method == "POST":
         form = RatingForm(request.POST, instance=rating)
@@ -84,8 +88,8 @@ def rate_album(request, album_id):
             new_rating.album = album
             new_rating.save()
             # referer = request.META.get("HTTP_REFERER", "home") # /home/ as fallback
-            # return redirect(referer)
-            return redirect("artikel-suche")  # Redirect to home after rating
+            # return redirect(referer) # doesn't quite work so using redirect to home
+            return redirect("home")  # Redirect to home after rating
     else:
         form = RatingForm(instance=rating)
 
