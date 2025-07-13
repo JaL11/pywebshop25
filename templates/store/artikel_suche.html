@@ -24,7 +24,11 @@
     <h2>Alben</h2>
     <ul>
       {% for album in albums %}
-        <li>{{ album.title }} von {{ album.artist.name }}</li>
+        <li>
+			{{ album.title }} - {{ album.artist.name }}
+			<small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+			| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+		</li>
         <form method="get" action="{% url 'pdf' %}">
           {% csrf_token %}
           <input type="hidden" name="type" value="album" />
