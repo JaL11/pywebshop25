@@ -26,8 +26,8 @@ urlpatterns = [
     path('useradmin/', include('Useradmin.urls')),
     path('shoppingcart/', include('Shoppingcart.urls')),
     path("home/", MyHomeView.as_view(), name="home"),
-    path("customerService/", include("customerService.urls"))
-
+    path("customerService/", include("customerService.urls")),
+    path('shoppingcart/', include('Shoppingcart.urls')),
 ]
 
 if settings.DEBUG:
