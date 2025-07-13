@@ -4,6 +4,7 @@
     "tailwindcss": "^4.1.11"
   },
   "scripts": {
-    "tailwind:watch": "npx @tailwindcss/cli -i ./static/css/base.css -o ./static/dist/base.css --watch"
+    "tailwind:watch": "npx @tailwindcss/cli -i ./static/css/base.css -o ./static/dist/base.css --watch",
+    "tailwind:compile": "npx @tailwindcss/cli -i ./static/css/base.css -o ./static/dist/base.css"
   }
 }

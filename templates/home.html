@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/home_style.css' %}" />
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
 {% endblock %}
 
 {% block title %}
@@ -12,42 +12,48 @@
 {% block content %}
   {% if user.is_authenticated %}
     {% block logged_in_content %}
-      <form method="get" action="{% url 'artikel-suche' %}">
-        <input type="text" name="q" placeholder="Artikel suchen..." required />
-        <button type="submit">Suchen</button>
-      </form>
-      <H1>Homepage</H1>
-      <p>Hi {{ user.username }}!</p>
-      <p>Your role is: {{ user.get_type_display }}</p>
+      <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+        <div class="flex items-center space-x-4">
+          <form method="get" action="{% url 'artikel-suche' %}">
+            <input type="text" name="q" class="placeholder:text-gray-500 placeholder:italic border-b" placeholder="Artikel suchen..." required />
+            <button type="submit" class="underline hover:text-violet-100">Suchen</button>
+          </form>
+          <form class="pl-45" method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">logout</button>
+          </form>
+          {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profilbild" class="w-[50px] h-[50px] rounded-full object-cover border-2 border-violet-500" />
+          {% endif %}
+        </div>
 
-      
-      {% if user.profile_picture %}
-        <img src="{{ user.profile_picture.url }}" alt="Profilbild" style="width: 150px; height: 150px; border-radius: 50%;" />
-      {% else %}
-        <p>No profile picture uploaded.</p>
-      {% endif %}
+        <h1 class="font-bold text-5xl mt-10">Profile</h1>
+        <p class="pt-10">Hi {{ user.username }}!</p>
+        {% comment %} <p>Your role is: {{ user.get_type_display }}</p> {% endcomment %}
 
-      
-      <form method="post" action="{% url 'upload_profile_picture' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <label for="profile_picture">Upload Profile Picture:</label>
-        <input type="file" name="profile_picture" id="profile_picture" accept="image/*" required />
-        <button type="submit">Upload</button>
-      </form>
+        {% if user.profile_picture %}
+          <img src="{{ user.profile_picture.url }}" alt="Profilbild" style="width: 150px; height: 150px; border-radius: 50%;" />
+        {% else %}
+          <p class="italic">No profile picture uploaded.</p>
+        {% endif %}
 
-      <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">logout</button>
-      </form>
+        <form method="post" action="{% url 'upload_profile_picture' %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label for="file">Upload Profile Picture:</label>
+          <input type="file" name="profile_picture" id="file" accept="image/*" class="file:rounded-full file:border-0 file:bg-violet-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-violet-700 hover:file:bg-violet-100 dark:file:bg-violet-600 dark:file:text-violet-100 dark:hover:file:bg-violet-500" required />
+          <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Upload</button>
+        </form>
+      </div>
     {% endblock %}
   {% else %}
     {% block not_logged_in_content %}
-      <H1>Homepage</H1>
-      <p>You are not logged in</p>
+    <div class="min-h-screen bg-violet-300 space-y-4 px-4 py-8">
+      <H1 class="font-bold text-4xl">Welcome to PyWebshop!</H1>
+      <p>You are not logged in :(</p>
       <p>
-        <a href="{% url 'login' %}">Login</a>
+        Please <a class="underline hover:text-violet-500 active:text-violet-900" href="{% url 'login' %}">Login</a> or <a class="underline hover:text-violet-500 active:text-violet-900" href="{% url 'signup' %}">Signup</a> to use this site!
       </p>
-      <a href="{% url 'signup' %}">Signup</a>
+    </div>  
     {% endblock %}
   {% endif %}
 {% endblock %}

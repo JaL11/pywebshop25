@@ -1,56 +1,64 @@
 {% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}
   Artikelsuche
 {% endblock %}
 
 {% block content %}
-  <h1>Suchergebnisse für "{{ query }}"</h1>
-  {% if artists or albums or tracks %}
-    <h2>Künstler</h2>
-    <ul>
-      {% for artist in artists %}
-        <li>{{ artist.name }} ({{ artist.genre }})</li>
-        <form method="get" action="{% url 'pdf' %}">
-          {% csrf_token %}
-          <input type="hidden" name="type" value="artist" />
-          <input type="hidden" name="id" value="{{ artist.id }}" />
-          <button type="submit">Download PDF</button>
-        </form>
-      {% empty %}
-        <li>Keine Künstler gefunden.</li>
-      {% endfor %}
-    </ul>
+  <div class="min-h-screen bg-violet-300">
+    <h1 class="font-bold text-4xl">Suchergebnisse für "{{ query }}"</h1>
+    {% if artists or albums or tracks %}
+      <h2>Künstler</h2>
+      <ul>
+        {% for artist in artists %}
+          <li>{{ artist.name }} ({{ artist.genre }})</li>
+          <form method="get" action="{% url 'pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="artist" />
+            <input type="hidden" name="id" value="{{ artist.id }}" />
+            <button type="submit">Download PDF</button>
+          </form>
+        {% empty %}
+          <li>Keine Künstler gefunden.</li>
+        {% endfor %}
+      </ul>
 
-    <h2>Alben</h2>
-    <ul>
-      {% for album in albums %}
-        <li>{{ album.title }} von {{ album.artist.name }}</li>
-        <form method="get" action="{% url 'pdf' %}">
-          {% csrf_token %}
-          <input type="hidden" name="type" value="album" />
-          <input type="hidden" name="id" value="{{ album.id }}" />
-          <button type="submit">Download PDF</button>
-        </form>
-      {% empty %}
-        <li>Keine Alben gefunden.</li>
-      {% endfor %}
-    </ul>
+      <h2>Alben</h2>
+      <ul>
+        {% for album in albums %}
+          <li>{{ album.title }} von {{ album.artist.name }}</li>
+          <form method="get" action="{% url 'pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="album" />
+            <input type="hidden" name="id" value="{{ album.id }}" />
+            <button type="submit">Download PDF</button>
+          </form>
+        {% empty %}
+          <li>Keine Alben gefunden.</li>
+        {% endfor %}
+      </ul>
 
-    <h2>Tracks</h2>
-    <ul>
-      {% for track in tracks %}
-        <li>{{ track.title }} (Album: {{ track.album.title }})</li>
-        <form method="get" action="{% url 'pdf' %}">
-          {% csrf_token %}
-          <input type="hidden" name="type" value="track" />
-          <input type="hidden" name="id" value="{{ track.id }}" />
-          <button type="submit">Download PDF</button>
-        </form>
-      {% empty %}
-        <li>Keine Tracks gefunden.</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Keine Ergebnisse gefunden.</p>
-  {% endif %}
+      <h2>Tracks</h2>
+      <ul>
+        {% for track in tracks %}
+          <li>{{ track.title }} (Album: {{ track.album.title }})</li>
+          <form method="get" action="{% url 'pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="track" />
+            <input type="hidden" name="id" value="{{ track.id }}" />
+            <button type="submit">Download PDF</button>
+          </form>
+        {% empty %}
+          <li>Keine Tracks gefunden.</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Keine Ergebnisse gefunden.</p>
+    {% endif %}
+  </div>
 {% endblock %}
