@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Useradmin.apps.UseradminConfig',
     'Shoppingcart.apps.ShoppingcartConfig',
-    'store.apps.storeConfig',
+    'store',
     "crispy_forms",
     "crispy_bootstrap5",
 ]

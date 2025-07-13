@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import get_object_or_404
 from django.db.models import Q,Avg
+from Shoppingcart.models import ShoppingCart
 
 from django.contrib.auth.decorators import login_required
 
@@ -43,7 +44,7 @@ def item_search(request):
         albums = albums.annotate(avg_rating=Avg("ratings__value"))
 
     tracks = Track.objects.filter(title__icontains=query) if query else []
-    
+
 
     context = {
         "query": query,

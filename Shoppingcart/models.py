@@ -10,7 +10,7 @@ class ShoppingCart(models.Model):
                                on_delete=models.CASCADE,
                                )
 
-    def add_item(myuser, computer):
+    def add_album(myuser, album):
         # Get existing shopping cart, or create a new one if none exists
         shopping_carts = ShoppingCart.objects.filter(myuser=myuser)
         if shopping_carts:
@@ -18,17 +18,36 @@ class ShoppingCart(models.Model):
         else:
             shopping_cart = ShoppingCart.objects.create(myuser=myuser)
 
-        # Add computer to shopping cart
-        product_id = computer.id
-        product_name = computer.get_brand_display() + ' ' + computer.get_type_display() + ' / ' \
-                       + str(computer.memory) + ' Gb / ' + computer.get_operating_system_display()
-        price = computer.price
+        # Add album to shopping cart
+        product_id = album.id
+        product_name = album.title + ' ' + album.artist + ' ' + album.releaseDate
+        price = album.price
         ShoppingCartItem.objects.create(product_id=product_id,
                                         product_name=product_name,
                                         price=price,
                                         quantity=1,
                                         shopping_cart=shopping_cart,
                                         )
+
+    def add_track(myuser, track):
+        # Get existing shopping cart, or create a new one if none exists
+        shopping_carts = ShoppingCart.objects.filter(myuser=myuser)
+        if shopping_carts:
+            shopping_cart = shopping_carts.first()
+        else:
+            shopping_cart = ShoppingCart.objects.create(myuser=myuser)
+
+        # Add track to shopping cart
+        product_id = track.id
+        product_name = track.title + ' ' + track.artist + ' ' + track.album
+        price = track.price
+        ShoppingCartItem.objects.create(product_id=product_id,
+                                        product_name=product_name,
+                                        price=price,
+                                        quantity=1,
+                                        shopping_cart=shopping_cart,
+                                        )
+
 
     def get_number_of_items(self):
         shopping_cart_items = ShoppingCartItem.objects.filter(shopping_cart=self)
@@ -50,6 +69,16 @@ class ShoppingCartItem(models.Model):
     shopping_cart = models.ForeignKey(ShoppingCart,
                                       on_delete=models.CASCADE,
                                       )
+    def add_item(self):
+        self.quantity += 1
+        self.save()
+
+    def remove_item(self):
+        if self.quantity > 1:
+            self.quantity -= 1
+            self.save()
+        else:
+            self.delete()
 
 
 class Payment(models.Model):

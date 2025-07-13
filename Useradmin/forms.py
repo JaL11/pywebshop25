@@ -8,9 +8,9 @@ class MySignUpForm(UserCreationForm):
         model = MyUser
         fields = ("username", "first_name", "last_name", "email", "profile_picture")
 
-    
 
 class ProfilePictureForm(forms.ModelForm):
     class Meta:
         model = MyUser
         fields = ['profile_picture']
+

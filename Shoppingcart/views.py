@@ -18,6 +18,16 @@ def show_shopping_cart(request):
         elif 'pay' in request.POST:
             return redirect('shopping_cart_pay')
 
+        elif 'add_item_id' in request.POST:
+            item_id = request.POST.get('add_item_id')
+            item = ShoppingCartItem.objects.get(id=item_id)
+            item.add_item()
+
+        elif 'remove_item_id' in request.POST:
+            item_id = request.POST.get('remove_item_id')
+            item = ShoppingCartItem.objects.get(id=item_id)
+            item.remove_item()
+
     else:  # request.method == 'GET'
         shopping_cart_is_empty = True
         shopping_cart_items = None

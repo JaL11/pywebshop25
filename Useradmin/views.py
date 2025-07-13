@@ -38,6 +38,3 @@ def upload_profile_picture(request):
     else:
         form = ProfilePictureForm(instance=request.user)
     return render(request, 'upload_profile_picture.html', {'form': form})
-
-
-   
