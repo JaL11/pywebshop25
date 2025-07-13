@@ -83,7 +83,9 @@ def rate_album(request, album_id):
             new_rating.user = request.user
             new_rating.album = album
             new_rating.save()
-            return redirect("rate_album", album_id=album.id) # type: ignore
+            # referer = request.META.get("HTTP_REFERER", "home") # /home/ as fallback
+            # return redirect(referer)
+            return redirect("artikel-suche")  # Redirect to home after rating
     else:
         form = RatingForm(instance=rating)
 
