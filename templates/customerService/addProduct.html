@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}Neuer Musik-Eintrag{% endblock %}
 
 {% block content %}
