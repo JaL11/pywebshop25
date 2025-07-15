@@ -11,6 +11,8 @@ from Shoppingcart.models import ShoppingCart
 
 from django.contrib.auth.decorators import login_required
 
+#TODO: add shopping cart functionality
+
 
 def home(request):
     artists = Artist.objects.all()
@@ -136,7 +138,11 @@ def toggle_rating(request):
 def get_album_info(request):
     album_id = request.GET.get("id")
     album = get_object_or_404(Album, id=album_id)
+    user = request.user
 
     if request.method == "GET":
         context = {"album": album}
         return render(request, "store/album_info.html", context)
+
+    if request.method == "POST":
+        ShoppingCart.add_album(user, album)
