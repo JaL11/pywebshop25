@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+  <h1>Album Informationen</h1>
+  <ul>
+    <li>
+      <strong>Titel:</strong> {{ album.title }}
+    </li>
+    <li>
+      <strong>Künstler:</strong> {{ album.artist.name }}
+    </li>
+    <li>
+      <strong>Veröffentlichungsdatum:</strong> {{ album.releaseDate }}
+    </li>
+    <li>
+      <strong>Preis:</strong> {{ album.price }} €
+    </li>
+    <li>
+      <strong>Durchschnittliche Bewertung:</strong> {{ album.average_rating|floatformat:1 }} ⭐
+    </li>
+    {% if album.cover %}
+      <li>
+        <strong>Cover:</strong><br />
+        <img src="{{ album.cover.url }}" alt="Album Cover" style="max-width: 300px; height: auto;" />
+      </li>
+    {% endif %}
+  </ul>
+  <form method="get" action="{% url 'pdf' %}">
+    {% csrf_token %}
+    <input type="hidden" name="type" value="album" />
+    <input type="hidden" name="id" value="{{ album.id }}" />
+    <button type="submit">Download PDF</button>
+  </form>
+{% endblock %}
