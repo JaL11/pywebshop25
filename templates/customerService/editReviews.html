@@ -2,11 +2,40 @@
 {% load static %}
 
 {% block title %}
-
+  Reviews verwalten
 {% endblock %}
 
 {% block content %}
   <h1>Bearbeite die Reviews der Produkte</h1>
+  <p>Liste der Alben</p>
+  <ul>
+    {% for album in albums %}
+      <li>
+        {{ album.title }} – {{ album.artist.name }}
+
+        {% if album.ratings_enabled %}
+          <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+          <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+        {% endif %}
+
+        <form method="post" action="{% url 'toggle_rating' %}">
+          {% csrf_token %}
+          <input type="hidden" name="id" value="{{ album.id }}" />
+          <input type="hidden"
+            name="action"
+            value="{% if album.ratings_enabled %}deactivate{% else %}activate{% endif %}" />
+          <button type="submit">
+            {% if album.ratings_enabled %}
+              Bewertung deaktivieren
+            {% else %}
+              Bewertung aktivieren
+            {% endif %}
+          </button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
   <p>
     <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
   </p>

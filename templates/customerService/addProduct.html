@@ -41,7 +41,7 @@
   </form>
 
   
-  <form class="space-y-2" id="album-form" method="post" action="{% url 'add_album' %}" style="display: none;">
+  <form class="space-y-2" id="album-form" method="post" action="{% url 'add_album' %}" enctype="multipart/form-data" style="display: none;">
     {% csrf_token %}
     <h2 class="text-center font-semibold mt-10">Album hinzufügen</h2>
     <label for="title">Titel:</label>
@@ -49,6 +49,8 @@
 
     <label for="artist">Artist (ID oder Name):</label>
     <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="artist" required><br>
+    <label for="cover">Bild:</label>
+    <input type="file" name="cover" accept="image/*" required><br>
 
     <label for="releaseDate">Veröffentlichungsdatum:</label>
     <input class="italic" type="date" name="releaseDate" required><br>
