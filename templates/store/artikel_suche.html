@@ -38,9 +38,9 @@
             <input type="hidden" name="id" value="{{ artist.id }}" />
             <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
             {% if user.is_superuser_or_customer_service %}
-              <p>
-                <a href="{% url 'modify_artist' %}">Bearbeiten</a>
-              </p>
+              <div>
+                <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_artist' %}">Bearbeiten</a>
+              </div>
             {% endif %}
           </form>
         {% empty %}
@@ -60,9 +60,9 @@
             <input type="hidden" name="id" value="{{ album.id }}" />
             <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
             {% if user.is_superuser_or_customer_service %}
-              <p>
-                <a href="{% url 'modify_album' %}">Bearbeiten</a>
-              </p>
+              <div>
+                <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_album' %}">Bearbeiten</a>
+              </div>
             {% endif %}
           </form>
         {% empty %}
@@ -82,9 +82,9 @@
             <input type="hidden" name="id" value="{{ track.id }}" />
             <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
             {% if user.is_superuser_or_customer_service %}
-              <p>
-                <a href="{% url 'modify_track' %}">Bearbeiten</a>
-              </p>
+              <div>
+                <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_track' %}">Bearbeiten</a>
+              </div>
             {% endif %}
           </form>
         {% empty %}

@@ -1,17 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}
 
 {% endblock %}
 
 {% block content %}
-  <h1>Produktinformationen ändern</h1>
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+  <h1 class="font-bold text-3xl">Produktinformationen ändern</h1>
   <form method="get" action="{% url 'artikel-suche' %}">
-    <input type="text" name="q" placeholder="Artikel suchen..." required />
-    <button type="submit">Suchen</button>
+    <input class="placeholder:text-gray-500 placeholder:italic border-b" type="text" name="q" placeholder="Artikel suchen..." required />
+    <button class="underline hover:text-violet-100" type="submit">Suchen</button>
   </form>
-  <p>
-    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
-  </p>
+  <div class="fixed bottom-0 mb-6">
+    <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+  </div>
+</div>
 {% endblock %}
