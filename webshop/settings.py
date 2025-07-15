@@ -10,23 +10,41 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+if os.path.exists(os.path.join(BASE_DIR, '.env')):
+    # project_folder = os.path.expanduser('~/pywebshop25')
+    load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ml422jwt_s!(pf&#m+a060)j$9z_y7339!cw(^t4@8h05#dcma'
-
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-ml422jwt_s!(pf&#m+a060)j$9z_y7339!cw(^t4@8h05#dcma")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", True)
+print(DEBUG)
 
 ALLOWED_HOSTS = []
 
+prod = os.environ.get("PRODUCTION_ENV", False)
+TEMPLATE_DIRS = []
+
+# set settings base on
+if prod:
+    STATIC_ROOT = BASE_DIR / 'static_production'
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    TEMPLATE_DIRS = [BASE_DIR / 'templates']
+    ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS","localhost, 127.0.0.1").split(',')
+    print("Running in prod mode")
+
+print(f"Running in production mode: {prod}")
 
 # Application definition
 
@@ -78,32 +96,48 @@ WSGI_APPLICATION = 'webshop.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if os.environ.get('DATABASE_ENGINE', '') == 'mysql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('MYSQL_DB_UNAME', '') + '$' +os.environ.get('MYSQL_DB_NAME', ''),
+            'USER': os.environ.get('MYSQL_DB_UNAME', ''),
+            'PASSWORD': os.environ.get('MYSQL_DB_PASSWORD', ''),
+            'HOST': os.environ.get('MYSQL_DB_URL','pywebshop25.mysql.eu.pythonanywhere-services.com'),
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_ALL_TABLES'",
+                'charset': 'utf8',
+            }
+        }
     }
-}
 
+else: #non production db
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#    },
-#    {
-#        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#    },
-]
+if prod:
+    AUTH_PASSWORD_VALIDATORS = [
+        {
+            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        },
+        {
+            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        },
+    ]
+else:
+    AUTH_PASSWORD_VALIDATORS = []
 
 
 # Internationalization
