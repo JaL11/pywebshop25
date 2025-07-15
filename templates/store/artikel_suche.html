@@ -39,22 +39,28 @@
     <h2>Alben</h2>
     <ul>
       {% for album in albums %}
+
         <li>
           {{ album.title }} - {{ album.artist.name }}
+         {% if album.ratings_enabled %}
           <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
           | <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+          {% endif %}
         </li>
-        <form method="get" action="{% url 'pdf' %}">
+
+        <form method="get" action="{% url 'album_info'%}">
           {% csrf_token %}
           <input type="hidden" name="type" value="album" />
           <input type="hidden" name="id" value="{{ album.id }}" />
-          <button type="submit">Download PDF</button>
-          {% if user.is_superuser_or_customer_service %}
+          <button type="submit">More information</button>
+        </form>
+
+        {% if user.is_superuser_or_customer_service %}
             <p>
               <a href="{% url 'modify_album' %}">Bearbeiten</a>
             </p>
           {% endif %}
-        </form>
+        
       {% empty %}
         <li>Keine Alben gefunden.</li>
       {% endfor %}

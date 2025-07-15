@@ -17,6 +17,8 @@ class Album(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     releaseDate = models.DateField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    cover = models.ImageField(upload_to="album_covers", blank=True, null=True)
+    ratings_enabled = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.title} by {self.artist.name}"
@@ -45,7 +47,9 @@ class Track(models.Model):
 class Rating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="ratings")
-    value = models.PositiveSmallIntegerField()  # 1 to 5 stars
+    value = models.PositiveSmallIntegerField()
+    is_active = models.BooleanField(default=True)
+
 
     class Meta:
         unique_together = ("user", "album")  # prevent multiple ratings per album/user

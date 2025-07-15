@@ -5,7 +5,8 @@ from .models import Artist, Album, Rating, Track
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from django.shortcuts import get_object_or_404
-from django.db.models import Q,Avg
+from django.db.models import Q, Avg
+from Useradmin.models import MyUser
 from Shoppingcart.models import ShoppingCart
 
 from django.contrib.auth.decorators import login_required
@@ -36,15 +37,15 @@ def item_search(request):
             Q(title__icontains=query) | Q(artist__name__icontains=query)
         )
 
+    albums = albums.annotate(
+        avg_rating=Avg("ratings__value", filter=Q(ratings__is_active=True))
+    )
+
     if min_rating:
-        albums = albums.annotate(avg_rating=Avg("ratings__value")).filter(
-            avg_rating__gte=float(min_rating)
-        )
-    else:
-        albums = albums.annotate(avg_rating=Avg("ratings__value"))
+        albums = albums.filter(avg_rating_gte=float(min_rating))
+
 
     tracks = Track.objects.filter(title__icontains=query) if query else []
-
 
     context = {
         "query": query,
@@ -52,7 +53,7 @@ def item_search(request):
         "albums": albums,
         "tracks": tracks,
         "min_rating": min_rating,
-        "ratings": range(1,6)
+        "ratings": range(1, 6),
     }
     return render(request, "store/artikel_suche.html", context)
 
@@ -112,3 +113,30 @@ def rate_album(request, album_id):
         form = RatingForm(instance=rating)
 
     return render(request, "store/rate_album.html", {"album": album, "form": form})
+
+
+@login_required
+def toggle_rating(request):
+    if request.method == "POST":
+        album_id = request.POST.get("id")
+        action = request.POST.get("action")
+
+        album = get_object_or_404(Album, id=album_id)
+
+        if action == "activate":
+            album.ratings_enabled = True
+        elif action == "deactivate":
+            album.ratings_enabled = False
+
+        album.save()
+
+    return redirect("reviews")
+
+
+def get_album_info(request):
+    album_id = request.GET.get("id")
+    album = get_object_or_404(Album, id=album_id)
+
+    if request.method == "GET":
+        context = {"album": album}
+        return render(request, "store/album_info.html", context)
