@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Customer Service Dashboard
+{% endblock %}
+
+{% block content %}
+  <h1>Willkommen im Customer Service Bereich</h1>
+  <p>Hallo {{ user.username }}!</p>
+  <p>
+    <a href="{% url 'addProduct' %}">Produkt hinzufügen</a>
+  </p>
+  <p>
+    <a href="{% url 'modifyProduct' %}">Produkt ändern</a>
+  </p>
+  <p>
+    <a href="{% url 'reviews' %}">Bewertungen</a>
+  </p>
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">logout</button>
+  </form>
+{% endblock %}

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Artist(models.Model):
@@ -16,9 +17,14 @@ class Album(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     releaseDate = models.DateField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
+    cover = models.ImageField(upload_to="album_covers", blank=True, null=True)
+    ratings_enabled = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.title} by {self.artist.name}"
+    
+    def average_rating(self):
+    	return self.ratings.aggregate(models.Avg("value"))["value__avg"] or 0 
 
 class Track(models.Model):
     title = models.CharField(max_length=100)
@@ -27,3 +33,17 @@ class Track(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.album.title})"
+    
+
+class Rating(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="ratings")
+    value = models.PositiveSmallIntegerField() 
+    is_active = models.BooleanField(default=True)
+
+
+    class Meta:
+        unique_together = ("user", "album")  # prevent multiple ratings per album/user
+
+    def __str__(self):
+        return f"{self.album.title}: {self.value}⭐ by {self.user.username}"

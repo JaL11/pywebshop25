@@ -6,25 +6,34 @@
 </head>
 <body>
 	<h1>Welcome to Pywebshop</h1>
+
 	<p>These are our artists:</p>
 	<p>
 		{% for artist in artists %}
-			<li>{{artist.name}} - {{artist.genre}}</li>
+			<li>{{ artist.name }} - {{ artist.genre }}</li>
 		{% endfor %}
 	</p>
+
 	<p>These are our albums:</p>
 	<p>
 		{% for album in albums %}
-			<li>{{album.title}} - {{album.artist}}</li>
+			<li>
+				{{ album.title }} - {{ album.artist }}
+				<small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+				| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+			</li>
 		{% endfor %}
 	</p>
+
 	<p>These are our tracks:</p>
 	<p>
 		{% for track in tracks %}
-			<li>{{track.title}} - {{track.album}}</li>
+			<li>{{ track.title }} - {{ track.album }}</li>
 		{% endfor %}
 	</p>
+
 	<p>Visit <a href="/admin/">the admin panel</a> to get started.</p>
 	<p><a href="/useradmin/login">Login here</a></p>
-	<p>Not registered yet?<a href="/useradmin/signup"> Signup here</a></p>
+	<p>Not registered yet? <a href="/useradmin/signup">Signup here</a></p>
 </body>
+</html>

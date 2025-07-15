@@ -16,3 +16,11 @@ class MyUser(AbstractUser):
                             )
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
 
+    def is_superuser_or_customer_service(self):
+        if self.type == 'SU' or self.type == 'CS':
+            return True
+        else:
+            return False
+
+        
+
