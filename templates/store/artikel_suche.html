@@ -36,7 +36,14 @@
       <h2 class="font-bold text-2xl mt-10">Künstler</h2>
       <ul>
         {% for artist in artists %}
-          <li>{{ artist.name }} ({{ artist.genre }}) ({{ artist.bio }})</li>
+          <!-- <li>{{ artist.name }} ({{ artist.genre }}) ({{ artist.bio }})</li> -->
+		  <li>
+			<a href="{% url 'artist_info' artist.id %}" class="hover:underline">
+			  {{ artist.name }} ({{ artist.genre }})
+			</a>
+			<br>
+			<small>Durchschnittliche Bewertung: {{ artist.average_rating|floatformat:1 }} ⭐</small>
+		  </li>
           <form method="get" action="{% url 'pdf' %}">
             {% csrf_token %}
             <input type="hidden" name="type" value="artist" />
@@ -56,7 +63,7 @@
       <h2 class="font-bold text-2xl mt-10">Alben</h2>
       <ul>
         {% for album in albums %}
-          <a href="{% url 'album_info' album.id %}">
+          <a href="{% url 'album_info' album.id %}" class="hover:underline">
 				{{ album.title }}</span> von <span class="font-semibold">{{ album.artist.name }}
 			</a>
 			<br>
@@ -85,7 +92,10 @@
       <ul>
         {% for track in tracks %}
           <li>
-            <span class="font-semibold">{{ track.title }}</span> (Album: {{ track.album.title }})
+            <!-- <span class="font-semibold">{{ track.title }}</span> (Album: {{ track.album.title }}) -->
+			 <a href="{% url 'track_info' track.id %}" class="hover:underline">
+				  {{ track.title }} - Album: {{ track.album.title }}
+			</a>
           </li>
           <form method="get" action="{% url 'pdf' %}">
             {% csrf_token %}

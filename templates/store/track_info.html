@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+	<h1 class="font-bold text-3xl">Track Informationen</h1>
+	<ul class="pt-10">
+		<li>
+			<strong>Titel:</strong> {{ track.title }}
+		</li>
+		<li>
+			<strong>Künstler:</strong> {{ track.artist.name }}
+		</li>
+		<li>
+			<strong>Album:</strong> {{ track.album.title }}
+		</li>
+		<li>
+			<strong>Länge:</strong> {{ track.duration }}
+		</li>
+		<li>
+			<strong>Preis:</strong> {{ track.price }} €
+		</li>
+		{% if track.cover %}
+			<li>
+				<strong>Cover:</strong><br />
+				<img src="{{ track.cover.url }}" alt="Track Cover" style="max-width: 300px; height: auto;" />
+			</li>
+		{% endif %}
+	</ul>
+	 {% if user.is_authenticated %}
+				<br>
+				<form method="POST">
+						{% csrf_token %}
+						<button type="submit">Add to shopping cart</button>
+				</form>
+		{% else %}
+				<br><a href="{% url 'login' %}">Login</a> to add to shopping cart
+				<br>
+		{%  endif %}
+	<form method="get" action="{% url 'pdf' %}">
+		{% csrf_token %}
+		<input type="hidden" name="type" value="track" />
+		<input type="hidden" name="id" value="{{ track.id }}" />
+		<button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
+	</form>
+</div>
+{% endblock %}

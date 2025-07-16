@@ -156,3 +156,21 @@ def get_album_info(request, album_id=None):
 
     if request.method == "POST":
         ShoppingCart.add_album(user, album)
+
+def get_artist_info(request, artist_id=None):
+    if not artist_id:
+        return redirect("home")  # Redirect to home if no artist ID is provided
+    artist = get_object_or_404(Artist, id=artist_id)
+    albums = Album.objects.filter(artist=artist)
+
+    context = {"artist": artist, "albums": albums}
+    return render(request, "store/artist_info.html", context)
+
+def get_track_info(request, track_id=None):
+    if not track_id:
+        return redirect("home")  # Redirect to home if no track ID is provided
+    track = get_object_or_404(Track, id=track_id)
+    album = track.album
+
+    context = {"track": track, "album": album}
+    return render(request, "store/track_info.html", context)

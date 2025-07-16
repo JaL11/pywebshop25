@@ -30,7 +30,7 @@ class Track(models.Model):
     title = models.CharField(max_length=100)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     duration = models.DurationField()
-    price = models.DecimalField(default=0.99, max_digits=2, decimal_places=2)
+    price = models.DecimalField(default=0.99, max_digits=2, decimal_places=2) # type: ignore
 
     def __str__(self):
         return f"{self.title} ({self.album.title})"

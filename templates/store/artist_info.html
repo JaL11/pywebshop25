@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+	<h1 class="font-bold text-3xl">Künstler Informationen</h1>
+	<ul class="pt-10">
+		<li>
+			<strong>Name:</strong> {{ artist.name }}
+		</li>
+		<li>
+			<strong>Geburtsdatum:</strong> {{ artist.dateOfBirth }}
+		</li>
+		<li>
+			<strong>Biografie:</strong> {{ artist.bio }}
+		</li>
+		<li>
+			<strong>Country:</strong> {{ artist.country }}
+		</li>
+		<li>
+			<strong>Durchschnittliche Bewertung:</strong> {{ artist.average_rating|floatformat:1 }} ⭐
+		</li>
+		{% if artist.photo %}
+			<li>
+				<strong>Foto:</strong><br />
+				<img src="{{ artist.photo.url }}" alt="Künstler Foto" style="max-width: 300px; height: auto;" />
+			</li>
+		{% endif %}
+	</ul>
+	{% if user.is_authenticated %}
+		<br>
+		<form method="POST">
+			{% csrf_token %}
+			<button type="submit">Add artist to favorites</button>
+		</form>
+	{% else %}
+		<br><a href="{% url 'login' %}">Login</a> to add artist to favorites
+		<br>
+	{% endif %}
+	<form method="get" action="{% url 'pdf' %}">
+		{% csrf_token %}
+		<input type="hidden" name="type" value="artist" />
+		<input type="hidden" name="id" value="{{ artist.id }}" />
+		<button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
+	</form>
+</div>
+{% endblock %}
