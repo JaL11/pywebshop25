@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}
 
 {% endblock %}
 
 {% block content %}
-  <h1>Album Informationen</h1>
-  <ul>
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+  <h1 class="font-bold text-3xl">Album Informationen</h1>
+  <ul class="pt-10">
     <li>
       <strong>Titel:</strong> {{ album.title }}
     </li>
@@ -34,6 +39,7 @@
     {% csrf_token %}
     <input type="hidden" name="type" value="album" />
     <input type="hidden" name="id" value="{{ album.id }}" />
-    <button type="submit">Download PDF</button>
+    <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
   </form>
+</div>
 {% endblock %}
