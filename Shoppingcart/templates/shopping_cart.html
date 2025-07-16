@@ -16,16 +16,16 @@
       Your shopping cart is empty.<br />
     {% else %}
       {% for item in shopping_cart_items %}
-        {{ item.product_name }}<br />
+        {% comment %} {{ item.product_name }}<br />
         <form method="POST" style="display:inline;">
           {% csrf_token %}
           <button type="submit" name="remove_item_id" value="{{ item.id }}">-</button>
-        </form>
+        </form> {% endcomment %}
         {{ item.price }} € x {{ item.quantity }}
-        <form method="POST" style="display:inline;">
+        {% comment %} <form method="POST" style="display:inline;">
           {% csrf_token %}
           <button type="submit" name="add_item_id" value="{{ item.id }}">+</button>
-        </form>
+        </form> {% endcomment %}
         <br />
       {% endfor %}Total amount: {{ total }} €
 
