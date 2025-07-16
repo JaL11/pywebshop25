@@ -155,3 +155,4 @@ def get_album_info(request):
 
     if request.method == "POST":
         ShoppingCart.add_album(user, album)
+        return redirect("shopping_cart_show")
