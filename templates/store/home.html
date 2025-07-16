@@ -7,44 +7,63 @@
     <link rel="stylesheet" href="{% static '../../static/dist/base.css' %}" />
   </head>
 
-  <body class="bg-indigo-500">
-    <h1 class="text-center text-5xl font-bold">Welcome to Pywebshop</h1>
+  <header>
+    <div class="max-w-7xl mx-auto flex items-center justify-between bg-violet-400 py-1">
+      <form method="get" action="{% url 'artikel-suche' %}" class="flex items-center space-x-2 pl-1">
+        <input class="placeholder:text-gray-500 placeholder:italic border-b bg-violet-200 pl-1" type="text" name="q" value="{{ query }}" placeholder="Suche..." />
+        <button class="underline hover:text-violet-100 cursor-pointer" type="submit">Suchen</button>
+      </form>
+
+      <div class="flex items-center space-x-4">
+        {% if user.is_authenticated %}
+          <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="cursor-pointer rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Logout</button>
+          </form>
+          {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" alt="Profilbild" class="w-[50px] h-[50px] rounded-full object-cover border-2 border-violet-500" />
+          {% endif %}
+        {% else %}
+            <a class="cursor-pointer rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" href="/useradmin/login">Login here!</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+  <body class="bg-violet-300">
     <div>
-      <p class="text-center font-bold pt-20">These are our artists:</p>
-      <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-400">
+      <p class="text-center font-bold pt-20">These are our top artists:</p>
+      <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-300">
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4 scrollbar-thin scrollbar-track-indigo-400 scrollbar-thumb-indigo-600">
           {% for artist in artists %}
-            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
+            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <p class="">{{ artist.name }} - {{ artist.genre }}</p>
             </div>
           {% endfor %}
         </div>
       </div>
     </div>
-    <p class="text-center font-bold pt-20">These are our albums:</p>
+    <p class="text-center font-bold pt-20">These are our top albums:</p>
     <p>
-      <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-400">
+      <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-300">
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4">
           {% for album in albums %}
-            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
-			  <p>
-				<a href="{% url 'album_info' album.id %}" class="hover:underline">
+            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
+              <a href="{% url 'album_info' album.id %}" class="hover:underline">
 				  {{ album.title }} - {{ album.artist }}
 				</a>
-			  </p>
               <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
-				| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+              | <a class="italic hover:text-violet-700" href="{% url 'rate_album' album.id %}">Rate this album</a>
             </div>
           {% endfor %}
         </div>
       </div>
     </p>
-    <p class="text-center font-bold pt-20">These are our tracks:</p>
+    <p class="text-center font-bold pt-20">These are our top tracks:</p>
     <p>
-      <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-400">
+      <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-300">
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4">
           {% for track in tracks %}
-            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
+            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <p>{{ track.title }} - {{ track.album }}</p>
             </div>
           {% endfor %}
@@ -52,9 +71,11 @@
       </div>
     </p>
     <p class="text-center mt-20">
-      Visit <a href="/admin/" class="hover:text-indigo-300 active:text-indigo-700 underline decoration-2">the admin panel</a> to get started.
+      Visit <a href="/admin/" class="hover:text-violet-700 active:text-violet-800 underline decoration-2">the admin panel</a> to manage content.
     </p>
-	<p class="text-center"><a href="/useradmin/login">Login here</a></p>
-	<p class="text-center">Not registered yet? <a href="/useradmin/signup">Signup here</a></p>
+
+    <p class="text-center">
+      Not registered yet? <a class="hover:text-violet-700 active:text-violet-800 underline decoration-2" href="/useradmin/signup">Signup here</a>
+    </p>
   </body>
 </html>

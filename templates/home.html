@@ -12,27 +12,30 @@
 {% block content %}
   {% if user.is_authenticated %}
     {% block logged_in_content %}
-      <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
-        <div class="flex items-center space-x-4">
-          <form method="get" action="{% url 'artikel-suche' %}">
-            <input type="text" name="q" class="placeholder:text-gray-500 placeholder:italic border-b" placeholder="Artikel suchen..." required />
-            <button type="submit" class="underline hover:text-violet-100 cursor-pointer">Suchen</button>
+      <header>
+        <div class="max-w-7xl mx-auto flex items-center justify-between bg-violet-400 py-1">
+          <form method="get" action="{% url 'artikel-suche' %}" class="flex items-center space-x-2 pl-1">
+            <input class="placeholder:text-gray-500 placeholder:italic border-b bg-violet-200 pl-1" type="text" name="q" value="{{ query }}" placeholder="Suche..." />
+            <button class="underline hover:text-violet-100 cursor-pointer" type="submit">Suchen</button>
           </form>
-          <form class="pl-45" method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500 cursor-pointer" type="submit">logout</button>
-          </form>
-          {% if user.profile_picture %}
-            <img src="{{ user.profile_picture.url }}" alt="Profilbild" class="w-[50px] h-[50px] rounded-full object-cover border-2 border-violet-500" />
-          {% endif %}
-        </div>
 
+          <div class="flex items-center space-x-4">
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button class="cursor-pointer rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Logout</button>
+            </form>
+            {% if user.profile_picture %}
+              <img src="{{ user.profile_picture.url }}" alt="Profilbild" class="w-[50px] h-[50px] rounded-full object-cover border-2 border-violet-500" />
+            {% endif %}
+          </div>
+        </div>
+      </header>
+      <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
         <h1 class="font-bold text-5xl mt-10">Profile</h1>
-        <p class="pt-10">Hi {{ user.username }}!</p>
-        {% comment %} <p>Your role is: {{ user.get_type_display }}</p> {% endcomment %}
+        <p class="pt-10 font-bold">Hi {{ user.username }}!</p>
 
         {% if user.profile_picture %}
-          <img src="{{ user.profile_picture.url }}" alt="Profilbild" style="width: 150px; height: 150px; border-radius: 50%;" />
+          <img class="mt-5" src="{{ user.profile_picture.url }}" alt="Profilbild" style="width: 150px; height: 150px; border-radius: 50%;" />
         {% else %}
           <p class="italic">No profile picture uploaded.</p>
         {% endif %}
@@ -47,13 +50,13 @@
     {% endblock %}
   {% else %}
     {% block not_logged_in_content %}
-    <div class="min-h-screen bg-violet-300 space-y-4 px-4 py-8">
-      <H1 class="font-bold text-4xl">Welcome to PyWebshop!</H1>
-      <p>You are not logged in :(</p>
-      <p>
-        Please <a class="underline hover:text-violet-500 active:text-violet-900" href="{% url 'login' %}">Login</a> or <a class="underline hover:text-violet-500 active:text-violet-900" href="{% url 'signup' %}">Signup</a> to use this site!
-      </p>
-    </div>  
+      <div class="min-h-screen bg-violet-300 space-y-4 px-4 py-8">
+        <H1 class="font-bold text-4xl">Welcome to PyWebshop!</H1>
+        <p>You are not logged in :(</p>
+        <p>
+          Please <a class="underline hover:text-violet-700 active:text-violet-900" href="{% url 'login' %}">Login</a> or <a class="underline hover:text-violet-500 active:text-violet-900" href="{% url 'signup' %}">Signup</a> to use this site!
+        </p>
+      </div>
     {% endblock %}
   {% endif %}
 {% endblock %}
