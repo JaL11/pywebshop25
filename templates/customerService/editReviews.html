@@ -6,12 +6,13 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Bearbeite die Reviews der Produkte</h1>
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+  <h1 class="font-bold text-3xl">Bearbeite die Reviews der Produkte</h1>
   <p>Liste der Alben</p>
   <ul>
     {% for album in albums %}
       <li>
-        {{ album.title }} – {{ album.artist.name }}
+        {{ album.title }} - {{ album.artist.name }}
 
         {% if album.ratings_enabled %}
           <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
@@ -39,4 +40,5 @@
   <p>
     <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
   </p>
+</div>
 {% endblock %}

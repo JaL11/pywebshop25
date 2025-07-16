@@ -27,13 +27,9 @@
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4">
           {% for album in albums %}
             <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
-              <!-- <p>{{ album.title }} - {{ album.artist }}</p> -->
-				<p>
-					{{ album.title }} - {{ album.artist }}
-					<br>
-					<small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
-					| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
-				</p>
+              <p>{{ album.title }} - {{ album.artist }}</p>
+              <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+				| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
             </div>
           {% endfor %}
         </div>
@@ -51,10 +47,10 @@
         </div>
       </div>
     </p>
-    <p class="text-center pt-20">
+    <p class="text-center mt-20">
       Visit <a href="/admin/" class="hover:text-indigo-300 active:text-indigo-700 underline decoration-2">the admin panel</a> to get started.
     </p>
-	<p><a href="/useradmin/login">Login here</a></p>
-	<p>Not registered yet?<a href="/useradmin/signup"> Signup here</a></p>
+	<p class="text-center"><a href="/useradmin/login">Login here</a></p>
+	<p class="text-center">Not registered yet? <a href="/useradmin/signup">Signup here</a></p>
   </body>
 </html>

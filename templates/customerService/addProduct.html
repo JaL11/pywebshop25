@@ -40,8 +40,8 @@
     <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Artist speichern</button>
   </form>
 
-
-  <form id="album-form" method="post" action="{% url 'add_album' %}" enctype="multipart/form-data" style="display: none;">
+  
+  <form class="space-y-2" id="album-form" method="post" action="{% url 'add_album' %}" enctype="multipart/form-data" style="display: none;">
     {% csrf_token %}
     <h2 class="text-center font-semibold mt-10">Album hinzufügen</h2>
     <label for="title">Titel:</label>
@@ -49,10 +49,6 @@
 
     <label for="artist">Artist (ID oder Name):</label>
     <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="artist" required><br>
-
-    <label for="cover">Bild:</label>
-    <input type="file" name="cover" accept="image/*" required><br>
-
     <label for="cover">Bild:</label>
     <input type="file" name="cover" accept="image/*" required><br>
 
