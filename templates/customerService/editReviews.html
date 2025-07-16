@@ -1,44 +1,59 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}
   Reviews verwalten
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
-  <h1 class="font-bold text-3xl">Bearbeite die Reviews der Produkte</h1>
-  <p>Liste der Alben</p>
-  <ul>
+  <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+    <h1 class="font-bold text-3xl">Bearbeite die Reviews der Produkte</h1>
+    <p class="text-2xl font-semibold pt-10">Liste der Alben:</p>
+
     {% for album in albums %}
-      <li>
-        {{ album.title }} - {{ album.artist.name }}
+      <div class="text-center">
+        <p>
+          <span class="font-semibold">{{ album.title }}</span> - {{ album.artist.name }}
+        </p>
 
-        {% if album.ratings_enabled %}
-          <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
-          <a href="{% url 'rate_album' album.id %}">Rate this album</a>
-        {% endif %}
+        <div class="space-y-2 text-center">
+          {% if album.ratings_enabled %}
+            <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+            <a class="italic hover:text-violet-700" href="{% url 'rate_album' album.id %}">Rate this album</a>
+          {% endif %}
 
-        <form method="post" action="{% url 'toggle_rating' %}">
-          {% csrf_token %}
-          <input type="hidden" name="id" value="{{ album.id }}" />
-          <input type="hidden"
-            name="action"
-            value="{% if album.ratings_enabled %}deactivate{% else %}activate{% endif %}" />
-          <button type="submit">
-            {% if album.ratings_enabled %}
-              Bewertung deaktivieren
-            {% else %}
-              Bewertung aktivieren
-            {% endif %}
-          </button>
-        </form>
-      </li>
+          <form method="post" action="{% url 'toggle_rating' %}">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ album.id }}" />
+            <input type="hidden"
+              name="action"
+              value="{% if album.ratings_enabled %}
+                    
+              deactivate
+
+              {% else %}
+                
+              activate
+
+              {% endif %}" />
+            <button class="hover:text-red-500 underline cursor-pointer" type="submit">
+              {% if album.ratings_enabled %}
+                Bewertung deaktivieren
+              {% else %}
+                Bewertung aktivieren
+              {% endif %}
+            </button>
+          </form>
+        </div>
+      </div>
     {% endfor %}
-  </ul>
 
-  <p>
-    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
-  </p>
-</div>
+    <div class="fixed bottom-0 mb-6">
+      <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+    </div>
+  </div>
 {% endblock %}
