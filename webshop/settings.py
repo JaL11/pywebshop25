@@ -56,9 +56,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Useradmin.apps.UseradminConfig',
+    'Shoppingcart.apps.ShoppingcartConfig',
     'store',
     "crispy_forms",
     "crispy_bootstrap5",
+    # 'store.apps.storeConfig',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap5"]

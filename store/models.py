@@ -22,23 +22,32 @@ class Album(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.artist.name}"
-    
+
     def average_rating(self):
-    	return self.ratings.aggregate(models.Avg("value"))["value__avg"] or 0 
+        return self.ratings.aggregate(models.Avg("value"))["value__avg"] or 0 # type: ignore[attr-defined]
 
 class Track(models.Model):
     title = models.CharField(max_length=100)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     duration = models.DurationField()
+    price = models.DecimalField(default=0.99, max_digits=2, decimal_places=2)
 
     def __str__(self):
         return f"{self.title} ({self.album.title})"
-    
+
+    # returns the average rating of the album
+    # def average_rating_album(self):
+    #     return self.album.average_rating()
+
+    # def average_rating(self):
+    #     return self.ratings.aggregate(models.Avg("value"))["value__avg"] or 0 # type: ignore[attr-defined]
+
+
 
 class Rating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name="ratings")
-    value = models.PositiveSmallIntegerField() 
+    value = models.PositiveSmallIntegerField()
     is_active = models.BooleanField(default=True)
 
 

@@ -12,7 +12,6 @@ class MySignUpForm(UserCreationForm):
         model = MyUser
         fields = ("username", "first_name", "last_name", "email", "profile_picture")
 
-    
 
 class ProfilePictureForm(forms.ModelForm):
     class Meta:
@@ -23,4 +22,4 @@ class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Username")
     password = forms.CharField(widget=forms.PasswordInput(), label="Password")
 
-    
+

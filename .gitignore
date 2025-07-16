@@ -43,6 +43,10 @@ _node_modules
 # File-based project format
 *.iws
 
+# node
+node_modules
+_node_modules
+
 # IntelliJ
 out/
 
