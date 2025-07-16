@@ -156,6 +156,7 @@ def get_album_info(request, album_id=None):
 
     if request.method == "POST":
         ShoppingCart.add_album(user, album)
+        return redirect("shopping_cart_show")
 
 def get_artist_info(request, artist_id=None):
     if not artist_id:

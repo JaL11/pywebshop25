@@ -2,6 +2,8 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.shortcuts import redirect, render
+
 
 
 class ShoppingCart(models.Model):
@@ -20,7 +22,7 @@ class ShoppingCart(models.Model):
 
         # Add album to shopping cart
         product_id = album.id
-        product_name = album.title + ' ' + album.artist + ' ' + album.releaseDate
+        product_name = album.title #+ ' ' + album.artist + ' ' + album.releaseDate
         price = album.price
         ShoppingCartItem.objects.create(product_id=product_id,
                                         product_name=product_name,
@@ -72,6 +74,8 @@ class ShoppingCartItem(models.Model):
     def add_item(self):
         self.quantity += 1
         self.save()
+        return redirect("shopping_cart_show")
+
 
     def remove_item(self):
         if self.quantity > 1:
@@ -79,6 +83,7 @@ class ShoppingCartItem(models.Model):
             self.save()
         else:
             self.delete()
+        return redirect("shopping_cart_show")
 
 
 class Payment(models.Model):
