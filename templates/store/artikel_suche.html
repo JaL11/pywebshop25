@@ -1,98 +1,100 @@
 {% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}
   Artikelsuche
 {% endblock %}
 {% block content %}
-  <h1>Suchergebnisse für "{{ query }}"</h1>
-  <form method="get" action="{% url 'artikel-suche' %}">
-  <input type="text" name="q" value="{{ query }}" placeholder="Suche..." />
-  <label for="min_rating">Min. Bewertung:</label>
-  <select name="min_rating">
-    <option value="">--</option>
-    {% for i in ratings %}
-      <option value="{{ i }}" {% if min_rating == i %}selected{% endif %}>{{ i }} ⭐</option>
-    {% endfor %}
-  </select>
-  <button type="submit">Suchen</button>
-</form>
-  {% if artists or albums or tracks %}
-    <h2>Künstler</h2>
-    <ul>
-      {% for artist in artists %}
-        <li>{{ artist.name }} ({{ artist.genre }}) ({{ artist.bio }})</li>
-        <form method="get" action="{% url 'pdf' %}">
-          {% csrf_token %}
-          <input type="hidden" name="type" value="artist" />
-          <input type="hidden" name="id" value="{{ artist.id }}" />
-          <button type="submit">Download PDF</button>
-          {% if user.is_superuser_or_customer_service %}
-            <p>
-              <a href="{% url 'modify_artist' %}">Bearbeiten</a>
-            </p>
-          {% endif %}
-        </form>
-      {% empty %}
-        <li>Keine Künstler gefunden.</li>
-      {% endfor %}
-    </ul>
+  <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+    <div class="flex items-center space-x-4">
+      <form method="get" action="{% url 'artikel-suche' %}">
+        <input type="text" name="q" class="placeholder:text-gray-500 placeholder:italic border-b bg-violet-200" placeholder="Artikel suchen..." required />
+        <button type="submit" class="underline hover:text-violet-700 cursor-pointer">Suchen</button>
+      </form>
+      <form class="pl-45" method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="cursor-pointer rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">logout</button>
+      </form>
+      {% if user.profile_picture %}
+        <img src="{{ user.profile_picture.url }}" alt="Profilbild" class="w-[50px] h-[50px] rounded-full object-cover border-2 border-violet-500" />
+      {% endif %}
+    </div>
+    <h1 class="font-bold text-3xl mt-10">Suchergebnisse für "{{ query }}"</h1>
+    {% if artists or albums or tracks %}
+      <h2 class="font-bold text-2xl mt-10">Künstler</h2>
+      <ul>
+        {% for artist in artists %}
+          <li>
+            <span class="font-semibold">{{ artist.name }}</span> ({{ artist.genre }}) ({{ artist.bio }})
+          </li>
+          <form method="get" action="{% url 'pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="artist" />
+            <input type="hidden" name="id" value="{{ artist.id }}" />
+            <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
+            {% if user.is_superuser_or_customer_service %}
+              <div>
+                <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_artist' %}">Bearbeiten</a>
+              </div>
+            {% endif %}
+          </form>
+        {% empty %}
+          <li class="italic">Keine Künstler gefunden.</li>
+        {% endfor %}
+      </ul>
 
-    <h2>Alben</h2>
-    <ul>
-      {% for album in albums %}
+      <h2 class="font-bold text-2xl mt-10">Alben</h2>
+      <ul>
+        {% for album in albums %}
+          <li>
+            <span class="font-semibold">{{ album.title }}</span> von <span class="font-semibold">{{ album.artist.name }}</span>
+          </li>
+          <form method="get" action="{% url 'pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="album" />
+            <input type="hidden" name="id" value="{{ album.id }}" />
+            <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
+            {% if user.is_superuser_or_customer_service %}
+              <div>
+                <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_album' %}">Bearbeiten</a>
+              </div>
+            {% endif %}
+          </form>
+        {% empty %}
+          <li>Keine Alben gefunden.</li>
+        {% endfor %}
+      </ul>
 
-        <li>
-          {{ album.title }} - {{ album.artist.name }}
-         {% if album.ratings_enabled %}
-          <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
-          | <a href="{% url 'rate_album' album.id %}">Rate this album</a>
-          {% endif %}
-        </li>
-
-        <form method="get" action="{% url 'album_info'%}">
-          {% csrf_token %}
-          <input type="hidden" name="type" value="album" />
-          <input type="hidden" name="id" value="{{ album.id }}" />
-          <button type="submit">More information</button>
-        </form>
-
-        {% if user.is_superuser_or_customer_service %}
-            <p>
-              <a href="{% url 'modify_album' %}">Bearbeiten</a>
-            </p>
-          {% endif %}
-        
-      {% empty %}
-        <li>Keine Alben gefunden.</li>
-      {% endfor %}
-    </ul>
-
-    <h2>Tracks</h2>
-    <ul>
-      {% for track in tracks %}
-        <li>{{ track.title }} (Album: {{ track.album.title }})</li>
-        <form method="get" action="{% url 'pdf' %}">
-          {% csrf_token %}
-          <input type="hidden" name="type" value="track" />
-          <input type="hidden" name="id" value="{{ track.id }}" />
-          <button type="submit">Download PDF</button>
-          {% if user.is_superuser_or_customer_service %}
-            <p>
-              <a href="{% url 'modify_track' %}">Bearbeiten</a>
-            </p>
-          {% endif %}
-        </form>
-      {% empty %}
-        <li>Keine Tracks gefunden.</li>
-      {% endfor %}
-    </ul>
-    <p>
-      <a href="{% url 'home' %}">Zurück zum Dashboard</a>
-    </p>
-    <form method="post" action="{% url 'logout' %}">
-      {% csrf_token %}
-      <button type="submit">logout</button>
-    </form>
-  {% else %}
-    <p>Keine Ergebnisse gefunden.</p>
-  {% endif %}
+      <h2 class="font-bold text-2xl mt-10">Tracks</h2>
+      <ul>
+        {% for track in tracks %}
+          <li>
+            <span class="font-semibold">{{ track.title }}</span> (Album: {{ track.album.title }})
+          </li>
+          <form method="get" action="{% url 'pdf' %}">
+            {% csrf_token %}
+            <input type="hidden" name="type" value="track" />
+            <input type="hidden" name="id" value="{{ track.id }}" />
+            <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
+            {% if user.is_superuser_or_customer_service %}
+              <div>
+                <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_track' %}">Bearbeiten</a>
+              </div>
+            {% endif %}
+          </form>
+        {% empty %}
+          <li>Keine Tracks gefunden.</li>
+        {% endfor %}
+      </ul>
+      <div class="fixed bottom-0 mb-6">
+        <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'home' %}">Zurück zum Dashboard</a>
+      </div>
+    {% else %}
+      <p class="">Keine Ergebnisse gefunden.</p>
+    {% endif %}
+  </div>
 {% endblock %}

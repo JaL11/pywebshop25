@@ -1,82 +1,86 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}Neuer Musik-Eintrag{% endblock %}
 
 {% block content %}
-  <h1>Produkt hinzufügen</h1>
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8 text-2xl">
+  <h1 class="font-bold text-3xl">Produkt hinzufügen</h1>
 
   <label for="entry-type">Typ auswählen:</label>
-  <select id="entry-type" name="entry_type" onchange="toggleFormSections()">
-    <option value="" selected disabled>Bitte wählen</option>
-    <option value="artist">Artist</option>
-    <option value="album">Album</option>
-    <option value="track">Track</option>
+  <select class="border border-violet-700 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:rounded-2xl bg-violet-200" id="entry-type" name="entry_type" onchange="toggleFormSections()">
+    <option class="bg-violet-200" value="" selected disabled>Bitte wählen</option>
+    <option class="bg-violet-200" value="artist">Artist</option>
+    <option class="bg-violet-200" value="album">Album</option>
+    <option class="bg-violet-200" value="track">Track</option>
   </select>
 
-  <p>
-    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
-  </p>
-
-  
-  <form id="artist-form" method="post" action="{% url 'add_artist' %}" style="display: none;">
+  <form class="space-y-2" id="artist-form" method="post" action="{% url 'add_artist' %}" style="display: none;">
     {% csrf_token %}
-    <h2>Artist hinzufügen</h2>
+    <h2 class="text-center font-semibold mt-10">Artist hinzufügen</h2>
     <label for="name">Name:</label>
-    <input type="text" name="name" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="name" required><br>
 
     <label for="genre">Genre:</label>
-    <input type="text" name="genre" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="genre" required><br>
 
     <label for="dateOfBirth">Geburtsdatum:</label>
-    <input type="date" name="dateOfBirth" required><br>
+    <input class="italic" type="date" name="dateOfBirth" required><br>
 
     <label for="country">Land:</label>
-    <input type="text" name="country"><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="country"><br>
 
     <label for="bio">Biografie:</label><br>
-    <textarea name="bio" rows="4"></textarea><br>
+    <textarea class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700 text-sm h-32 w-80 p-1" name="bio" rows="4"></textarea><br>
 
-    <button type="submit">Artist speichern</button>
+    <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Artist speichern</button>
   </form>
 
-  
-  <form id="album-form" method="post" action="{% url 'add_album' %}" enctype="multipart/form-data" style="display: none;">
+
+  <form class="space-y-2" id="album-form" method="post" action="{% url 'add_album' %}" style="display: none;">
     {% csrf_token %}
-    <h2>Album hinzufügen</h2>
+    <h2 class="text-center font-semibold mt-10">Album hinzufügen</h2>
     <label for="title">Titel:</label>
-    <input type="text" name="title" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="title" required><br>
 
     <label for="artist">Artist (ID oder Name):</label>
-    <input type="text" name="artist" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="artist" required><br>
 
     <label for="cover">Bild:</label>
     <input type="file" name="cover" accept="image/*" required><br>
 
     <label for="releaseDate">Veröffentlichungsdatum:</label>
-    <input type="date" name="releaseDate" required><br>
+    <input class="italic" type="date" name="releaseDate" required><br>
 
     <label for="price">Preis:</label>
-    <input type="number" name="price" step="0.01" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="number" name="price" step="0.01" required><br>
 
-    <button type="submit">Album speichern</button>
+    <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Album speichern</button>
   </form>
 
-  
-  <form id="track-form" method="post" action="{% url 'add_track' %}" style="display: none;">
+
+  <form class="space-y-2" id="track-form" method="post" action="{% url 'add_track' %}" style="display: none;">
     {% csrf_token %}
-    <h2>Track hinzufügen</h2>
+    <h2 class="text-center font-semibold mt-10">Track hinzufügen</h2>
     <label for="title">Titel:</label>
-    <input type="text" name="title" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="title" required><br>
 
     <label for="album">Album (ID oder Titel):</label>
-    <input type="text" name="album" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="album" required><br>
 
     <label for="duration">Dauer (HH:MM:SS):</label>
-    <input type="text" name="duration" placeholder="00:03:30" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="duration" placeholder="00:03:30" required oninput="this.value = this.value.replace(/[^0-9:]/g, '')" pattern="^\d{2}:\d{2}:\d{2}$"><br>
 
-    <button type="submit">Track speichern</button>
+    <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Track speichern</button>
   </form>
+
+  <div class="fixed bottom-0 mb-6">
+    <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+  </div>
 
   <script>
     function toggleFormSections() {
@@ -86,4 +90,5 @@
       document.getElementById("track-form").style.display = selected === "track" ? "block" : "none";
     }
   </script>
+</div>
 {% endblock %}
