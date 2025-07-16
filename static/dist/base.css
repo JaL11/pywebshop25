@@ -7,14 +7,9 @@
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
-    --color-red-50: oklch(97.1% 0.013 17.38);
+    --color-red-500: oklch(63.7% 0.237 25.331);
     --color-cyan-200: oklch(91.7% 0.08 205.041);
-    --color-cyan-300: oklch(86.5% 0.127 207.078);
-    --color-cyan-500: oklch(71.5% 0.143 215.221);
-    --color-indigo-200: oklch(87% 0.065 274.039);
     --color-indigo-300: oklch(78.5% 0.115 274.713);
-    --color-indigo-400: oklch(67.3% 0.182 276.935);
-    --color-indigo-500: oklch(58.5% 0.233 277.117);
     --color-indigo-700: oklch(45.7% 0.24 277.023);
     --color-violet-50: oklch(96.9% 0.016 293.756);
     --color-violet-100: oklch(94.3% 0.029 294.588);
@@ -234,9 +229,6 @@
   .inline-block {
     display: inline-block;
   }
-  .table {
-    display: table;
-  }
   .h-32 {
     height: calc(var(--spacing) * 32);
   }
@@ -270,20 +262,11 @@
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
   .flex-shrink-0 {
     flex-shrink: 0;
   }
-  .border-collapse {
-    border-collapse: collapse;
-  }
   .cursor-pointer {
     cursor: pointer;
-  }
-  .resize {
-    resize: both;
   }
   .snap-x {
     scroll-snap-type: x var(--tw-scroll-snap-strictness);
@@ -441,14 +424,8 @@
   .pt-20 {
     padding-top: calc(var(--spacing) * 20);
   }
-  .pr-0 {
-    padding-right: calc(var(--spacing) * 0);
-  }
   .pr-0\.5 {
     padding-right: calc(var(--spacing) * 0.5);
-  }
-  .pl-0 {
-    padding-left: calc(var(--spacing) * 0);
   }
   .pl-0\.5 {
     padding-left: calc(var(--spacing) * 0.5);
@@ -506,10 +483,6 @@
   .shadow {
     --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
-  }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
   }
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
@@ -588,6 +561,13 @@
       }
     }
   }
+  .hover\:text-red-500 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-red-500);
+      }
+    }
+  }
   .hover\:text-violet-100 {
     &:hover {
       @media (hover: hover) {
@@ -602,17 +582,17 @@
       }
     }
   }
-  .hover\:text-violet-600 {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-violet-600);
-      }
-    }
-  }
   .hover\:text-violet-700 {
     &:hover {
       @media (hover: hover) {
         color: var(--color-violet-700);
+      }
+    }
+  }
+  .hover\:underline {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: underline;
       }
     }
   }
@@ -810,11 +790,6 @@
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -890,7 +865,6 @@
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;

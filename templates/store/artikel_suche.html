@@ -66,19 +66,18 @@
       <ul>
         {% for album in albums %}
           <a href="{% url 'album_info' album.id %}">
-				{{ album.title }}</span> von <span class="font-semibold">{{ album.artist.name }}
+				{{ album.title }} von <span class="font-semibold hover:text-violet-700 underline">{{ album.artist.name }}</span>
 			</a>
 			<br>
           {% if album.ratings_enabled %}
             <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
             | <a class="italic hover:text-violet-700" href="{% url 'rate_album' album.id %}">Rate this album</a>
           {% endif %}
-
-          <form method="get" action="{% url 'album_info' %}">
+          <form method="get" action="{% url 'pdf' %}">
             {% csrf_token %}
             <input type="hidden" name="type" value="album" />
             <input type="hidden" name="id" value="{{ album.id }}" />
-            <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">More information</button>
+            <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
           </form>
 
           {% if user.is_superuser_or_customer_service %}

@@ -53,8 +53,8 @@
         <a class="underline hover:text-violet-700 active:text-violet-900" href="{% url 'login' %}">Login</a> to add to shopping cart
       </div>
     {% endif %}
-    <div class="fixed bottom-0 mb-6">
+    {% comment %} <div class="fixed bottom-0 mb-6">
       <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'artikel-suche' %}">Zurück zur Suche</a>
-    </div>
+    </div> {% endcomment %}
   </div>
 {% endblock %}
