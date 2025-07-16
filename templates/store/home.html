@@ -33,12 +33,12 @@
     <div>
       <p class="text-center font-bold pt-20">These are our top artists:</p>
       <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-300">
-        <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4 scrollbar-thin scrollbar-track-indigo-400 scrollbar-thumb-indigo-600">
+        <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4 scrollbar-thin scrollbar-track-indigo-400 scrollbar-thumb-indigo-500">
           {% for artist in artists %}
-            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
+            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <!-- <p class="">{{ artist.name }} - {{ artist.genre }}</p> -->
 				<a href="{% url 'artist_info' artist.id %}" class="hover:underline">
-				  {{ artist.name }} - {{ artist.genre }}
+				  {{ artist.name }}
 				</a>
 			  <small>Genre: {{ artist.genre }}</small>
             </div>
@@ -67,7 +67,7 @@
       <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-300">
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4">
           {% for track in tracks %}
-            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
+            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <!-- <p>{{ track.title }} - {{ track.album }}</p> -->
 			   <a href="{% url 'track_info' track.id %}" class="hover:underline">
 				  {{ track.title }} - {{ track.album }}
