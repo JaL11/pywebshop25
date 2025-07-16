@@ -27,7 +27,11 @@
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4">
           {% for album in albums %}
             <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
-              <p>{{ album.title }} - {{ album.artist }}</p>
+			  <p>
+				<a href="{% url 'album_info' album.id %}" class="hover:underline">
+				  {{ album.title }} - {{ album.artist }}
+				</a>
+			  </p>
               <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
 				| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
             </div>

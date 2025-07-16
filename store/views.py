@@ -144,8 +144,9 @@ def toggle_rating(request):
     return redirect("reviews")
 
 
-def get_album_info(request):
-    album_id = request.GET.get("id")
+def get_album_info(request, album_id=None):
+    if not album_id:
+        return redirect("home")  # Redirect to home if no album ID is provided
     album = get_object_or_404(Album, id=album_id)
     user = request.user
 
