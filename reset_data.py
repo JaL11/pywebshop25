@@ -24,4 +24,4 @@ for root, dirs, files in os.walk("."):
             os.remove(file)
             print(f"🗑️ Deleted {file}")
 
-print("✔️ Reset complete. Run makemigrations and migrate next.")
+print("✔️ Reset complete. Run makemigrations, migrate and seed_data next.")
