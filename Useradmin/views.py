@@ -1,14 +1,12 @@
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views import generic
-from .forms import MySignUpForm
+from .forms import LoginForm, MySignUpForm
 from django.views.generic.base import TemplateView
 from .forms import ProfilePictureForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-
-# Create your views here.
 class MySignUpView(generic.CreateView):
     form_class = MySignUpForm
     success_url = reverse_lazy('login')
@@ -16,6 +14,7 @@ class MySignUpView(generic.CreateView):
 
 
 class MyLoginView(LoginView):
+    form_class = LoginForm
     template_name = "registration/login.html"
 
 

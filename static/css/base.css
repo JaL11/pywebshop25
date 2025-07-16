@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+#carousel::-webkit-scrollbar {
+  height: 8px;
+}
+#carousel::-webkit-scrollbar-track {
+  background: #818cf8; /* indigo-400 */
+  border-radius: 4px;
+}
+#carousel::-webkit-scrollbar-thumb {
+  background: #4f46e5; /* indigo-600 */
+  border-radius: 4px;
+}
+
+#submitLogin, #submitSignup {
+  background-color: #818cf8;
+}

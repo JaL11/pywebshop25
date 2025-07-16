@@ -1,32 +1,38 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}
 
 {% endblock %}
 
 {% block content %}
-  <h1>Ändere hier die Angaben zum Artist</h1>
-  <form id="artist-form" method="post" action="{% url 'modify_artist' %}">
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+  <h1 class="font-bold text-3xl">Ändere hier die Angaben zum Artist</h1>
+  <form class="space-y-2" id="artist-form" method="post" action="{% url 'modify_artist' %}">
     {% csrf_token %}
     <label for="name">Name:</label>
-    <input type="text" name="name" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="name" required><br>
 
     <label for="genre">Genre:</label>
-    <input type="text" name="genre" required><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="genre" required><br>
 
     <label for="dateOfBirth">Geburtsdatum:</label>
-    <input type="date" name="dateOfBirth" required><br>
+    <input class="italic" type="date" name="dateOfBirth" required><br>
 
     <label for="country">Land:</label>
-    <input type="text" name="country"><br>
+    <input class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700" type="text" name="country"><br>
 
     <label for="bio">Biografie:</label><br>
-    <textarea name="bio" rows="4"></textarea><br>
+    <textarea class="border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-700 text-sm h-32 w-80 p-1" name="bio" rows="4"></textarea><br>
 
-    <button type="submit">Änderung speichern</button>
+    <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">Änderung speichern</button>
   </form>
-  <p>
-    <a href="{% url 'customerService' %}">Zurück zum Dashboard</a>
-  </p>
+  <div class="fixed bottom-0 mb-6"> 
+    <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'customerService' %}">Zurück zum Dashboard</a>
+  </div>
+</div>
 {% endblock %}

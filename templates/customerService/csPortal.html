@@ -1,23 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
 
 {% block title %}
   Customer Service Dashboard
 {% endblock %}
 
 {% block content %}
-  <h1>Willkommen im Customer Service Bereich</h1>
-  <p>Hallo {{ user.username }}!</p>
-  <p>
-    <a href="{% url 'addProduct' %}">Produkt hinzufügen</a>
-  </p>
-  <p>
-    <a href="{% url 'modifyProduct' %}">Produkt ändern</a>
-  </p>
-  <p>
-    <a href="{% url 'reviews' %}">Bewertungen</a>
-  </p>
-  <form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">logout</button>
-  </form>
+  <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8 text-2xl">
+    <h1 class="font-bold text-3xl">Willkommen im Customer Service Bereich</h1>
+    <p class="mt-10">
+      Hallo <span class="italic">{{ user.username }}</span>!
+    </p>
+    <a href="{% url 'addProduct' %}" class="inline-block rounded-full border bg-violet-200 px-8 py-4 text-xs hover:bg-violet-400 text-center w-40">Produkt hinzufügen</a>
+    <a href="{% url 'modifyProduct' %}" class="inline-block rounded-full border bg-violet-200 px-8 py-4 text-xs hover:bg-violet-400 text-center w-40">Produkt ändern</a>
+    <a href="{% url 'reviews' %}" class="inline-block rounded-full border bg-violet-200 px-8 py-4 text-xs hover:bg-violet-400 text-center w-40">Bewertungen</a>
+    <form method="post" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button class="underline italic cursor-pointer hover:text-violet-700" type="submit">logout</button>
+    </form>
+  </div>
 {% endblock %}
