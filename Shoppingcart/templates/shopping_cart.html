@@ -24,8 +24,16 @@
             <div>
               <p class="font-medium">{{ item.title }}</p>
               <p class="text-sm text-gray-600">{{ item.price }} € x {{ item.quantity }}</p>
+              <form method="POST" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" name="add_item_id" value="{{ item.id }}"> +</button>
+                </form>
+                <form method="POST" style="display:inline;">
+                  {% csrf_token %}
+                      <button type="submit" name="remove_item_id" value="{{ item.id }}">| -</button>
+                </form>
             </div>
-            <p class="pl-5 font-semibold text-violet-700">{{ item.price|floatformat:2|add:'0'|floatformat:2|floatformat }} €</p>
+            <p class="pl-5 font-semibold text-violet-700">{{item.price |floatformat:2|add:'0'|floatformat:2|floatformat }} €</p>
           </div>
         {% endfor %}
       </div>

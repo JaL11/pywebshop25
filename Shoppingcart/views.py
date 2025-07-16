@@ -22,11 +22,20 @@ def show_shopping_cart(request):
             item_id = request.POST.get('add_item_id')
             item = ShoppingCartItem.objects.get(id=item_id)
             item.add_item()
+            return redirect('shopping_cart_show')
+
 
         elif 'remove_item_id' in request.POST:
             item_id = request.POST.get('remove_item_id')
             item = ShoppingCartItem.objects.get(id=item_id)
             item.remove_item()
+            return redirect('shopping_cart_show')
+
+        elif 'delete_item_id' in request.POST:
+            item_id = request.POST.get('delete_item_id')
+            item = ShoppingCartItem.objects.get(id=item_id)
+            item.delete()
+            return redirect('shopping_cart_show')
 
     else:  # request.method == 'GET'
         shopping_cart_is_empty = True
