@@ -10,12 +10,20 @@
 {% endblock %}
 {% block content %}
   <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+    <h1 class="italic">Suchergebnisse für "{{ query }}"</h1>
     <div class="flex items-center space-x-4">
       <form method="get" action="{% url 'artikel-suche' %}">
-        <input type="text" name="q" class="placeholder:text-gray-500 placeholder:italic border-b bg-violet-200" placeholder="Artikel suchen..." required />
-        <button type="submit" class="underline hover:text-violet-700 cursor-pointer">Suchen</button>
+        <input class="placeholder:text-gray-500 placeholder:italic border-b bg-violet-200 pl-1" type="text" name="q" value="{{ query }}" placeholder="Suche..." />
+        <label for="min_rating">Min. Bewertung:</label>
+        <select class="cursor-pointer" name="min_rating">
+          <option value="">--</option>
+          {% for i in ratings %}
+            <option class="bg-violet-400" value="{{ i }}" {% if min_rating == i %}selected{% endif %}>{{ i }} ⭐</option>
+          {% endfor %}
+        </select>
       </form>
-      <form class="pl-45" method="post" action="{% url 'logout' %}">
+      <button class="underline hover:text-violet-100 cursor-pointer" type="submit">Suchen</button>
+      <form class="pl-20" method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button class="cursor-pointer rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit">logout</button>
       </form>
@@ -23,14 +31,12 @@
         <img src="{{ user.profile_picture.url }}" alt="Profilbild" class="w-[50px] h-[50px] rounded-full object-cover border-2 border-violet-500" />
       {% endif %}
     </div>
-    <h1 class="font-bold text-3xl mt-10">Suchergebnisse für "{{ query }}"</h1>
+
     {% if artists or albums or tracks %}
       <h2 class="font-bold text-2xl mt-10">Künstler</h2>
       <ul>
         {% for artist in artists %}
-          <li>
-            <span class="font-semibold">{{ artist.name }}</span> ({{ artist.genre }}) ({{ artist.bio }})
-          </li>
+          <li>{{ artist.name }} ({{ artist.genre }}) ({{ artist.bio }})</li>
           <form method="get" action="{% url 'pdf' %}">
             {% csrf_token %}
             <input type="hidden" name="type" value="artist" />
@@ -43,29 +49,34 @@
             {% endif %}
           </form>
         {% empty %}
-          <li class="italic">Keine Künstler gefunden.</li>
+          <li>Keine Künstler gefunden.</li>
         {% endfor %}
       </ul>
 
       <h2 class="font-bold text-2xl mt-10">Alben</h2>
       <ul>
         {% for album in albums %}
+          {{ album.title }} - {{ album.artist.name }}
+          {% if album.ratings_enabled %}
+            <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+            | <a class="italic hover:text-violet-700" href="{% url 'rate_album' album.id %}">Rate this album</a>
+          {% endif %}
           <li>
-            <span class="font-semibold">{{ album.title }}</span> von <span class="font-semibold">{{ album.artist.name }}</span>
-          </li>
-          <form method="get" action="{% url 'pdf' %}">
+
+          <form method="get" action="{% url 'album_info' %}">
             {% csrf_token %}
             <input type="hidden" name="type" value="album" />
             <input type="hidden" name="id" value="{{ album.id }}" />
-            <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
-            {% if user.is_superuser_or_customer_service %}
-              <div>
-                <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_album' %}">Bearbeiten</a>
-              </div>
-            {% endif %}
+            <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">More information</button>
           </form>
+
+          {% if user.is_superuser_or_customer_service %}
+            <div>
+              <a class="underline hover:text-violet-700 cursor-pointer italic" href="{% url 'modify_album' %}">Bearbeiten</a>
+            </div>
+          {% endif %}
         {% empty %}
-          <li>Keine Alben gefunden.</li>
+          <div class="pt-20">Keine Alben gefunden.</div>
         {% endfor %}
       </ul>
 
@@ -94,7 +105,7 @@
         <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'home' %}">Zurück zum Dashboard</a>
       </div>
     {% else %}
-      <p class="">Keine Ergebnisse gefunden.</p>
+      <p class="pt-20 text-4xl font-bold italic">Keine Ergebnisse gefunden.</p>
     {% endif %}
   </div>
 {% endblock %}

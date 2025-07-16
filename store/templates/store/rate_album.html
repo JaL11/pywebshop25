@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
 
 {% block content %}
-  <h1>{{ album.title }}</h1>
+<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8 text-2xl">
+  <h1 class="font-bold text-3xl">{{ album.title }}</h1>
 
   <p>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</p>
 
   {% if user.is_authenticated %}
-    <h3>Rate this album</h3>
+    <h3 class="underline">Rate this album</h3>
     <form method="post">
       {% csrf_token %}
       {{ form|crispy }}
-      <button type="submit" class="btn btn-primary">Submit Rating</button>
+      <button class="rounded-full mt-5 border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" type="submit" class="btn btn-primary">Submit Rating</button>
     </form>
   {% else %}
-    <p><a href="{% url 'login' %}">Log in</a> to rate this album.</p>
+    <div><a class="hover:text-indigo-300 active:text-indigo-700 underline decoration-2" href="{% url 'login' %}">Log in</a> to rate this album.</div>
   {% endif %}
+</div>
 {% endblock %}
