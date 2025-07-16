@@ -51,7 +51,12 @@
       <ul>
         {% for album in albums %}
           <li>
-            <span class="font-semibold">{{ album.title }}</span> von <span class="font-semibold">{{ album.artist.name }}</span>
+            <span class="font-semibold">
+				{{ album.title }}</span> von <span class="font-semibold">{{ album.artist.name }}
+				<br>
+				<small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
+				| <a href="{% url 'rate_album' album.id %}">Rate this album</a>
+			</span>
           </li>
           <form method="get" action="{% url 'pdf' %}">
             {% csrf_token %}
