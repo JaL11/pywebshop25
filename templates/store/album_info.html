@@ -10,46 +10,51 @@
 {% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
-  <h1 class="font-bold text-3xl">Album Informationen</h1>
-  <ul class="pt-10">
-    <li>
-      <strong>Titel:</strong> {{ album.title }}
-    </li>
-    <li>
-      <strong>Künstler:</strong> {{ album.artist.name }}
-    </li>
-    <li>
-      <strong>Veröffentlichungsdatum:</strong> {{ album.releaseDate }}
-    </li>
-    <li>
-      <strong>Preis:</strong> {{ album.price }} €
-    </li>
-    <li>
-      <strong>Durchschnittliche Bewertung:</strong> {{ album.average_rating|floatformat:1 }} ⭐
-    </li>
-    {% if album.cover %}
+  <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
+    <h1 class="font-bold text-3xl">Album Informationen</h1>
+    <ul class="pt-10">
       <li>
-        <strong>Cover:</strong><br />
-        <img src="{{ album.cover.url }}" alt="Album Cover" style="max-width: 300px; height: auto;" />
+        <strong>Titel:</strong> {{ album.title }}
       </li>
-    {% endif %}
-  </ul>
-   {% if user.is_authenticated %}
-        <br>
-        <form method="POST">
-            {% csrf_token %}
-            <button type="submit">Add to shopping cart</button>
-        </form>
+      <li>
+        <strong>Künstler:</strong> {{ album.artist.name }}
+      </li>
+      <li>
+        <strong>Veröffentlichungsdatum:</strong> {{ album.releaseDate }}
+      </li>
+      <li>
+        <strong>Preis:</strong> {{ album.price }} €
+      </li>
+      <li>
+        <strong>Durchschnittliche Bewertung:</strong> {{ album.average_rating|floatformat:1 }} ⭐
+      </li>
+      {% if album.cover %}
+        <li>
+          <strong>Cover:</strong><br />
+          <img src="{{ album.cover.url }}" alt="Album Cover" style="max-width: 300px; height: auto;" />
+        </li>
+      {% endif %}
+    </ul>
+
+    <form method="get" action="{% url 'pdf' %}">
+      {% csrf_token %}
+      <input type="hidden" name="type" value="album" />
+      <input type="hidden" name="id" value="{{ album.id }}" />
+      <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
+    </form>
+    {% if user.is_authenticated %}
+      <br />
+      <form method="POST">
+        {% csrf_token %}
+        <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500 cursor-pointer" type="submit">Add to shopping cart</button>
+      </form>
     {% else %}
-        <br><a href="{% url 'login' %}">Login</a> to add to shopping cart
-        <br>
-    {%  endif %}
-  <form method="get" action="{% url 'pdf' %}">
-    {% csrf_token %}
-    <input type="hidden" name="type" value="album" />
-    <input type="hidden" name="id" value="{{ album.id }}" />
-    <button class="italic underline hover:text-violet-700 cursor-pointer" type="submit">Download PDF</button>
-  </form>
-</div>
+      <div>
+        <a class="underline hover:text-violet-700 active:text-violet-900" href="{% url 'login' %}">Login</a> to add to shopping cart
+      </div>
+    {% endif %}
+    <div class="fixed bottom-0 mb-6">
+      <a class="underline italic hover:text-violet-700 cursor-pointer" href="{% url 'artikel-suche' %}">Zurück zur Suche</a>
+    </div>
+  </div>
 {% endblock %}
