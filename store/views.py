@@ -44,7 +44,7 @@ def item_search(request):
     )
 
     if min_rating:
-        albums = albums.filter(avg_rating_gte=float(min_rating))
+        albums = albums.filter(avg_rating__gte=float(min_rating))
 
 
     tracks = Track.objects.filter(title__icontains=query) if query else []
