@@ -17,7 +17,7 @@ class Album(models.Model):
     artist = models.ForeignKey(Artist, on_delete=models.CASCADE)
     releaseDate = models.DateField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    cover = models.ImageField(upload_to="album_covers", blank=True, null=True)
+    cover = models.ImageField(upload_to="album_covers", blank=True, null=True, default='static/defaults/default_album_cover.jpg')
     ratings_enabled = models.BooleanField(default=True)
 
     def __str__(self):

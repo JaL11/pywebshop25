@@ -10,33 +10,49 @@
 {% endblock %}
 
 {% block content %}
-  <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
-    <h2 class="font-bold text-3xl">Shopping cart</h2>
-    {% if shopping_cart_is_empty %}
-      Your shopping cart is empty.<br />
-    {% else %}
-      {% for item in shopping_cart_items %}
-        {% comment %} {{ item.product_name }}<br />
-        <form method="POST" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit" name="remove_item_id" value="{{ item.id }}">-</button>
-        </form> {% endcomment %}
-        {{ item.price }} € x {{ item.quantity }}
-        {% comment %} <form method="POST" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit" name="add_item_id" value="{{ item.id }}">+</button>
-        </form> {% endcomment %}
-        <br />
-      {% endfor %}Total amount: {{ total }} €
+  <div class="min-h-screen bg-violet-300 px-4 py-10 flex flex-col items-center space-y-10">
+    <h2 class="font-bold text-4xl">Shopping Cart</h2>
 
-      <br /><br />
-      <form method="POST">
+    <h3 class="text-2xl font-semibold text-violet-800 border-b pb-2 mt-10">Your Items</h3>
+
+    {% if shopping_cart_is_empty %}
+      <p class="text-gray-600 italic">Your shopping cart is empty.</p>
+    {% else %}
+      <div class="space-y-4">
+        {% for item in shopping_cart_items %}
+          <div class=" flex justify-between items-center bg-violet-200 rounded-lg px-4 py-2">
+            <div>
+              <p class="font-medium">{{ item.title }}</p>
+              <p class="text-sm text-gray-600">{{ item.price }} € x {{ item.quantity }}</p>
+            </div>
+            <p class="pl-5 font-semibold text-violet-700">{{ item.price|floatformat:2|add:'0'|floatformat:2|floatformat }} €</p>
+            <div class="pl-2">
+              <form method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button class="bg-green-100 text-green-600 px-4 py-2 rounded-full hover:bg-red-300 font-semibold transition" type="submit" name="add_item_id" value="{{ item.id }}">+</button>
+              </form>
+              <form method="POST" style="display:inline;">
+                {% csrf_token %}
+                <button>| <span class="bg-red-200 text-red-800 px-4 py-2 rounded-full hover:bg-red-300 font-semibold transition" type="submit" name="remove_item_id" value="{{ item.id }}">-</span></button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="flex justify-between items-center pt-6 border-t">
+        <span class="text-xl font-bold text-gray-800">Total: <span class="text-xl font-bold text-violet-800">{{ total }} €</span></span>
+      </div>
+
+      <form method="POST" class="pt-6 space-y-4">
         {% csrf_token %}
-        <button type="submit" name="empty">Empty the shopping cart</button><br />
-        <button type="submit" name="pay">Pay with credit card</button>
+        <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">
+          <button type="submit" name="empty" class="w-full sm:w-auto bg-red-200 text-red-800 px-4 py-2 rounded-full hover:bg-red-300 font-semibold transition">Empty Cart</button>
+          <button type="submit" name="pay" class="w-full sm:w-auto bg-violet-600 text-white px-4 py-2 rounded-full hover:bg-violet-700 font-semibold transition">Pay with Credit Card</button>
+        </div>
       </form>
     {% endif %}
-    <br />
-    <a href="{% url 'home' %}">Return to browsing music!</a>
+
+    <a href="{% url 'home' %}" class="text-violet-600 hover:underline hover:text-violet-700 text-lg">Return to browsing music</a>
   </div>
 {% endblock %}

@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="{% static '../../static/dist/base.css' %}" />
   </head>
 
-  <header>
-    <div class="max-w-7xl mx-auto flex items-center justify-between bg-violet-400 py-1">
+  <header class="bg-violet-400">
+    <div class="max-w-7xl mx-auto flex items-center justify-between py-1">
       <form method="get" action="{% url 'artikel-suche' %}" class="flex items-center space-x-2 pl-1">
         <input class="placeholder:text-gray-500 placeholder:italic border-b bg-violet-200 pl-1" type="text" name="q" value="{{ query }}" placeholder="Suche..." />
         <button class="underline hover:text-violet-100 cursor-pointer" type="submit">Suchen</button>
@@ -33,12 +33,12 @@
     <div>
       <p class="text-center font-bold pt-20">These are our top artists:</p>
       <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-300">
-        <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4 scrollbar-thin scrollbar-track-indigo-400 scrollbar-thumb-indigo-600">
+        <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4 scrollbar-thin scrollbar-track-indigo-400 scrollbar-thumb-indigo-500">
           {% for artist in artists %}
-            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
+            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <!-- <p class="">{{ artist.name }} - {{ artist.genre }}</p> -->
 				<a href="{% url 'artist_info' artist.id %}" class="hover:underline">
-				  {{ artist.name }} - {{ artist.genre }}
+				  {{ artist.name }}
 				</a>
 			  <small>Genre: {{ artist.genre }}</small>
             </div>
@@ -67,7 +67,7 @@
       <div class="border-4 border-gray-400 rounded-lg overflow-hidden w-[700px] mx-auto bg-indigo-300">
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4">
           {% for track in tracks %}
-            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-500 rounded-lg flex items-center justify-center text-center">
+            <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <!-- <p>{{ track.title }} - {{ track.album }}</p> -->
 			   <a href="{% url 'track_info' track.id %}" class="hover:underline">
 				  {{ track.title }} - {{ track.album }}

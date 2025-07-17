@@ -1,26 +1,31 @@
 {% extends 'home.html' %}
 {% load static %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" />
+{% endblock %}
+
 {% block title %}
   Payment
 {% endblock %}
 
 {% block content %}
-  <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
-    <h2 class="font-bold text-3xl">Payment</h2>
+  <div class="min-h-screen flex flex-col items-center bg-violet-300 px-4 py-10">
+    <h2 class="font-bold text-4xl mb-6">💳 Payment</h2>
     {% if paid %}
-      Thank you for your payment.<br /><br />
+      <div class="bg-green-100 border border-green-300 text-green-800 px-6 py-4 rounded-lg text-center">Thank you for your payment.</div>
+      <a class="mt-6 text-violet-800 hover:underline" href="{% url 'home' %}">Return to browsing music!</a>
     {% elif shopping_cart_is_empty %}
-      Your shopping cart is empty. There is nothing to pay for.<br /><br />
+      <div class="bg-yellow-100 border border-yellow-300 text-yellow-800 px-6 py-4 rounded-lg text-center">Your shopping cart is empty. There is nothing to pay for.</div>
     {% else %}
-      <form method="POST">
+      <form method="POST" class="w-full max-w-md bg-white p-6 rounded-xl shadow-md space-y-4">
         {% csrf_token %}
         {{ payment_form.as_p }}
         <input type="hidden" id="shopping_cart_id" name="shopping_cart_id" value="{{ shopping_cart.id }}" />
-        <button type="submit" name="Pay">Pay</button>
+        <button class="w-full bg-violet-600 text-white py-2 rounded-md hover:bg-violet-700 transition font-semibold cursor-pointer" type="submit" name="Pay">Pay</button>
       </form>
       <br />
-      <a href="{% url 'home' %}">Return to browsing music!</a>
+      <a class="mt-6 text-violet-800 hover:underline" href="{% url 'home' %}">Return to browsing music!</a>
     {% endif %}
   </div>
 {% endblock %}
