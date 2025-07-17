@@ -13,6 +13,17 @@
   <div class="min-h-screen flex flex-col items-center bg-violet-300 space-y-4 px-4 py-8">
     <h1 class="font-bold text-3xl">Album Informationen</h1>
     <ul class="pt-10">
+		{% if album.cover %}
+			<li>
+				<strong>Cover:</strong><br />
+				<img src="{{ album.cover }}" alt="Album Cover" style="max-width: 300px; height: auto;" />
+			</li>
+    	{% else %}
+	  <li>
+		<strong>Cover: No album cover</strong><br />
+		<!-- <img src="{% static 'images/default_album_cover.jpg' %}" alt="Album Cover" style="max-width: 300px; height: auto;" /> -->
+	  </li>
+		{% endif %}
       <li>
         <strong>Titel:</strong> {{ album.title }}
       </li>
@@ -28,12 +39,12 @@
       <li>
         <strong>Durchschnittliche Bewertung:</strong> {{ album.average_rating|floatformat:1 }} ⭐
       </li>
-      {% if album.cover %}
+      <!-- {% if album.cover %}
         <li>
           <strong>Cover:</strong><br />
           <img src="{{ album.cover.url }}" alt="Album Cover" style="max-width: 300px; height: auto;" />
         </li>
-      {% endif %}
+      {% endif %} -->
     </ul>
 
     <form method="get" action="{% url 'pdf' %}">
