@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'dist/base.css' %}" type="text/css"/>
+  <link rel="stylesheet" href="{% static 'dist/base.css' %}" type="text/css" />
 {% endblock %}
 
 {% block title %}
@@ -47,6 +47,7 @@
           <button class="rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500 cursor-pointer" type="submit">Upload</button>
         </form>
       </div>
+      <a href="{% url 'home' %}" class="text-violet-600 hover:underline hover:text-violet-700 text-lg">Return to browsing music</a>
     {% endblock %}
   {% else %}
     {% block not_logged_in_content %}
@@ -56,6 +57,7 @@
         <p>
           Please <a class="underline hover:text-violet-700 active:text-violet-900" href="{% url 'login' %}">Login</a> or <a class="underline hover:text-violet-500 active:text-violet-900" href="{% url 'signup' %}">Signup</a> to use this site!
         </p>
+        <a href="{% url 'home' %}" class="text-violet-600 hover:underline hover:text-violet-700 text-lg">Return to browsing music</a>
       </div>
     {% endblock %}
   {% endif %}

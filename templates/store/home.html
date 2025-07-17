@@ -24,7 +24,7 @@
             <img src="{{ user.profile_picture.url }}" alt="Profilbild" class="w-[50px] h-[50px] rounded-full object-cover border-2 border-violet-500" />
           {% endif %}
         {% else %}
-            <a class="cursor-pointer rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" href="/useradmin/login">Login here!</a>
+          <a class="cursor-pointer rounded-full border-0 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 dark:bg-violet-600 dark:text-violet-100 dark:hover:bg-violet-500" href="/useradmin/login">Login here!</a>
         {% endif %}
       </div>
     </div>
@@ -37,10 +37,8 @@
           {% for artist in artists %}
             <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <!-- <p class="">{{ artist.name }} - {{ artist.genre }}</p> -->
-				<a href="{% url 'artist_info' artist.id %}" class="hover:underline">
-				  {{ artist.name }}
-				</a>
-			  <small>Genre: {{ artist.genre }}</small>
+              <a href="{% url 'artist_info' artist.id %}" class="hover:underline">{{ artist.name }}</a>
+              <small>Genre: {{ artist.genre }}</small>
             </div>
           {% endfor %}
         </div>
@@ -52,9 +50,7 @@
         <div id="carousel" class="overflow-x-auto flex snap-x scroll-smooth space-x-4 p-4">
           {% for album in albums %}
             <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
-              <a href="{% url 'album_info' album.id %}" class="hover:underline">
-				  {{ album.title }} - {{ album.artist }}
-				</a>
+              <a href="{% url 'album_info' album.id %}" class="hover:underline">{{ album.title }} - {{ album.artist }}</a>
               <small>Average Rating: {{ album.average_rating|floatformat:1 }} ⭐</small>
               | <a class="italic hover:text-violet-700" href="{% url 'rate_album' album.id %}">Rate this album</a>
             </div>
@@ -69,9 +65,7 @@
           {% for track in tracks %}
             <div class="snap-center flex-shrink-0 w-64 h-40 bg-cyan-200 rounded-lg flex items-center justify-center text-center">
               <!-- <p>{{ track.title }} - {{ track.album }}</p> -->
-			   <a href="{% url 'track_info' track.id %}" class="hover:underline">
-				  {{ track.title }} - {{ track.album }}
-				</a>
+              <a href="{% url 'track_info' track.id %}" class="hover:underline">{{ track.title }} - {{ track.album }}</a>
             </div>
           {% endfor %}
         </div>
