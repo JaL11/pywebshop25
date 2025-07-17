@@ -33,7 +33,7 @@
               </form>
               <form method="POST" style="display:inline;">
                 {% csrf_token %}
-                <button>| <span class="bg-red-200 text-red-800 px-4 py-2 rounded-full hover:bg-red-300 font-semibold transition" type="submit" name="remove_item_id" value="{{ item.id }}">-</span></button>
+                <button class="bg-red-200 text-red-800 px-4 py-2 rounded-full hover:bg-red-300 font-semibold transition" type="submit" name="remove_item_id" value="{{ item.id }}">-</button>
               </form>
             </div>
           </div>

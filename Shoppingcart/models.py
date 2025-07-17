@@ -74,7 +74,7 @@ class ShoppingCartItem(models.Model):
     def add_item(self):
         self.quantity += 1
         self.save()
-        return redirect("shopping_cart_show")
+        # return redirect("shopping_cart_show")
 
 
     def remove_item(self):
@@ -83,7 +83,7 @@ class ShoppingCartItem(models.Model):
             self.save()
         else:
             self.delete()
-        return redirect("shopping_cart_show")
+        # return redirect("shopping_cart_show")
 
 
 class Payment(models.Model):
