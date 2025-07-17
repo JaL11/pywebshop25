@@ -5,7 +5,7 @@
 #############################################################
 
 # TODO: enable security features
-generate secret key
+#generate secret key
 echo "SECRET_KEY=$(python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())')" >> .env
 
 # static file preporation
